@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cronolist</title>
+<meta name="description" content="Organização, consulta e história da TV brasileira: emissoras, cronologias, praças, esportes e programação.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0a0b0e" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231a56db'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='42' font-weight='700' text-anchor='middle' fill='white'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:title" content="Cronolist"><meta property="og:description" content="Organização, consulta e história da TV brasileira.">
+<script src="config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--b1:#fff;--card:#f6f7f9;--cardb:#e3e6ec;--ink:#0b0d12;--mut:#5d6573;--bar:rgba(255,255,255,.92);--acc:#1a56db;--acc2:#1a56db;--accw:#eaf1ff;--ok:#0a7a4a;--okb:#e3f6ec;--wa:#8a5a00;--wab:#fff3d6;--ba:#b3261e;--bab:#fde8e6;--inp:#fff;--ov:rgba(10,13,20,.45);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--b1:#0a0b0e;--card:#14161b;--cardb:#262a33;--ink:#f3f4f6;--mut:#9aa1ad;--bar:rgba(10,11,14,.92);--acc:#4d8dff;--acc2:#4d8dff;--accw:#14284a;--ok:#5fe0a0;--okb:rgba(40,190,120,.16);--wa:#f2c46d;--wab:rgba(230,170,40,.16);--ba:#ff9a92;--bab:rgba(240,80,70,.16);--inp:#14161b;--ov:rgba(0,0,0,.6);color-scheme:dark}}
+:root[data-theme="dark"]{--b1:#0a0b0e;--card:#14161b;--cardb:#262a33;--ink:#f3f4f6;--mut:#9aa1ad;--bar:rgba(10,11,14,.92);--acc:#4d8dff;--acc2:#4d8dff;--accw:#14284a;--ok:#5fe0a0;--okb:rgba(40,190,120,.16);--wa:#f2c46d;--wab:rgba(230,170,40,.16);--ba:#ff9a92;--bab:rgba(240,80,70,.16);--inp:#14161b;--ov:rgba(0,0,0,.6);color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);background:var(--b1);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
+body.mo{overflow:hidden}
+a{color:inherit;text-decoration:none}button,select,input,textarea{font:inherit;color:inherit}svg{flex:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}main.wrap{padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
+.wm,h1,h2,.sh h2{font-family:Sora,Inter,system-ui,sans-serif}
+.wm{font-weight:800;letter-spacing:-.045em;font-size:25px;line-height:1}.wm i{font-style:normal;color:var(--acc)}
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bar);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--cardb)}
+.hr{display:flex;align-items:center;gap:12px;min-height:58px}.logo{flex:1;min-width:0;display:flex;align-items:center}
+.acts{display:flex;gap:8px}.ib{width:42px;height:42px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--cardb);background:transparent;flex:none;cursor:pointer}.ib:hover{border-color:var(--acc);color:var(--acc)}
+.bn{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:var(--bar);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--cardb)}
+.bn a,.dn a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:50px;font-size:11px;font-weight:600;color:var(--mut)}
+.bn a.on,.dn a.on{color:var(--acc)}.dn{display:none}
+@media(min-width:900px){.bn{display:none}.dn{display:flex;gap:4px;flex:none}.dn a{flex-direction:row;gap:8px;min-height:0;padding:20px 14px;font-size:14px;border-bottom:2px solid transparent;margin-bottom:-1px}.dn a.on{border-bottom-color:var(--acc)}.logo{flex:none}.hr{gap:30px}.acts{margin-left:auto}main.wrap{padding-bottom:40px}}
+.tag{margin:18px 0 0;color:var(--mut);font-size:14px}
+.sub{display:flex;align-items:center;gap:12px;padding:16px 0 6px}.sub h1{margin:0;font-size:22px;letter-spacing:-.02em}.cr{margin:2px 0 0;font-size:12px;color:var(--mut)}.cr a{text-decoration:underline}
+.pc{margin-top:14px;padding:14px 16px;border-radius:14px;border:1px solid var(--cardb);background:var(--card)}
+.pc p{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.pr{display:flex;align-items:center;gap:14px}.pr b{font:800 30px Sora,Inter,sans-serif;color:var(--acc);letter-spacing:-.03em}.bar{flex:1;height:8px;border-radius:99px;background:var(--cardb);overflow:hidden}.bar i{display:block;height:100%;width:var(--p);background:var(--acc);border-radius:inherit}
+@media (prefers-reduced-motion:no-preference){.bar i{animation:f .8s cubic-bezier(.23,1,.32,1)}@keyframes f{from{transform:scaleX(0);transform-origin:left}}}
+.sh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 12px}.sh h2{display:flex;align-items:center;gap:8px;margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}.sh h2 small{font-family:Inter,sans-serif;font-weight:400;color:var(--mut);font-size:13px}
+.big h2{font-size:26px;letter-spacing:-.03em}.va{flex:none;display:flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--acc)}.va:hover{text-decoration:underline}
+.car{position:relative}.row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;padding:2px 16px 8px;margin:0 -16px;scrollbar-width:none;scroll-behavior:smooth}.row::-webkit-scrollbar{display:none}
+.ar{display:none;position:absolute;top:calc(50% - 4px);translate:0 -50%;z-index:2;width:36px;height:36px;border-radius:50%;border:1px solid var(--cardb);background:var(--b1);align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)}.ar.l{left:-14px}.ar.r{right:-14px}
+@media(min-width:760px){.ar{display:flex}.row{padding-inline:0;margin:0}}
+.sq{position:relative;flex:0 0 96px;aspect-ratio:1;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:8px 4px;border-radius:14px;border:1px solid var(--cardb);background:var(--card);text-align:center;transition:border-color .2s,transform .2s}
+.sq:hover{border-color:var(--acc)}.sq:active{transform:scale(.97)}.sq span{font-size:11px;font-weight:600;line-height:1.15;max-width:100%;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+@media(min-width:760px){.sq{flex-basis:120px}}
+.bd{display:grid;place-items:center;width:68%;height:46%;border-radius:10px;background:var(--c);color:#fff;font-style:normal;font-weight:800;letter-spacing:-.03em;overflow:hidden;white-space:nowrap}
+.lgi{width:72%;height:48%;object-fit:contain;display:block}
+.rk{position:absolute;top:6px;left:6px;min-width:20px;height:20px;padding:0 5px;border-radius:99px;display:grid;place-items:center;background:var(--acc);color:#fff;font-size:11px;font-weight:700;font-style:normal}
+.fl{width:74%;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.12);display:block}.big-fl{width:96px}
+.cta{display:flex;align-items:center;gap:14px;margin-top:18px;padding:16px;border-radius:14px;background:var(--acc);color:#fff;font-weight:700}.cta small{display:block;font-weight:400;opacity:.85;font-size:12.5px;margin-top:2px}.cta:active{opacity:.9}
+.card{position:relative;display:block;padding:14px;border-radius:14px;border:1px solid var(--cardb);background:var(--card)}a.card:hover{border-color:var(--acc)}
+.eg{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));margin:12px 0}.eg .sq{flex:none;width:auto}@media(min-width:760px){.eg{grid-template-columns:repeat(auto-fill,minmax(124px,1fr))}}
+.lst{display:grid;gap:10px;margin:12px 0}@media(min-width:760px){.lst.c2{grid-template-columns:1fr 1fr}}@media(min-width:1000px){.lst.c3{grid-template-columns:repeat(3,1fr)}}
+.lst h3{margin:0 0 6px;font-size:15.5px;font-weight:700}.lst p{margin:4px 0 0;font-size:12.5px;color:var(--mut)}
+input,select,textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--cardb);background:var(--inp);outline:none;min-height:46px}input:focus,select:focus,textarea:focus{border-color:var(--acc)}select option{color:#000}
+.fg{display:grid;gap:10px;margin:12px 0}@media(min-width:760px){.fg{grid-template-columns:repeat(5,1fr)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.chips button{padding:9px 15px;border-radius:99px;border:1px solid var(--cardb);background:transparent;font-weight:600;font-size:13px;cursor:pointer;min-height:42px}.chips button:hover{border-color:var(--acc)}.chips button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700}.ok{color:var(--ok)}.wa{color:var(--wa)}.ba{color:var(--ba)}.pill.ok{background:var(--okb)}.pill.wa{background:var(--wab)}.pill.ba{background:var(--bab)}
+.chip{display:inline-block;margin:0 4px 4px 0;padding:3px 9px;border-radius:99px;background:var(--accw);color:var(--acc);font-size:11.5px;font-weight:600}
+.mut{color:var(--mut);font-size:13px}.c{text-align:center}.mt{margin-top:14px}
+.btn{padding:10px 16px;border-radius:10px;border:1px solid var(--cardb);background:transparent;font-weight:600;font-size:14px;cursor:pointer;min-height:44px}.btn:hover{border-color:var(--acc)}.btn:disabled{opacity:.4}.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}.btn.dng{color:var(--ba)}.btn.sm{padding:6px 12px;min-height:34px;font-size:12.5px}
+.pgn{display:flex;justify-content:center;align-items:center;gap:12px;margin:18px 0}
+.hero{display:flex;gap:16px;align-items:center;margin-top:14px}.hero .bd,.hero .lgi{width:88px;height:88px;flex:none;font-size:20px}.hero h2{margin:0 0 6px;font-size:24px;letter-spacing:-.02em}
+.sg{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));margin:12px 0}.stt{padding:14px 8px;text-align:center;border-radius:14px;border:1px solid var(--cardb);background:var(--card)}a.stt:hover{border-color:var(--acc)}.stt b{display:block;font:700 22px Sora,sans-serif}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.cal span{font-size:11px;font-weight:700;color:var(--mut)}
+.cal button{position:relative;aspect-ratio:1;min-height:38px;border:0;border-radius:10px;background:transparent;font-size:13px;font-weight:600;cursor:pointer}.cal button:hover{background:var(--accw)}.cal button.has{background:var(--accw);color:var(--acc)}.cal button.on{background:var(--acc);color:#fff}
+.pi{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}.pi .tm{font-weight:700;color:var(--acc);white-space:nowrap}
+.cc{border-left:3px solid var(--bd)}.cc.ok{--bd:#22a06b}.cc.wa{--bd:#e0a100}.cc.ba{--bd:#e5484d}.cc h3{padding-right:0}
+.g2{display:grid;gap:14px}@media(min-width:900px){.g2{grid-template-columns:1fr 2fr}}
+.fx{display:flex;gap:12px;padding:12px 14px}.fx .t{flex:none;width:76px;font-weight:700;line-height:1.3}.fx .t small{display:block;font-weight:400;color:var(--mut)}
+.empty{padding:18px 14px;border-radius:12px;border:1px dashed var(--cardb);color:var(--mut);font-size:13px;text-align:center}
+.ft{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:44px;padding:28px 0 8px;border-top:1px solid var(--cardb);text-align:center}.ft .wm{font-size:26px}.ft small{color:var(--mut);font-size:12.5px}
+.fn{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-size:13px;color:var(--mut)}.fn a:hover{color:var(--acc)}
+.mb{position:fixed;inset:0;z-index:60;background:var(--ov)}
+.mp{position:fixed;z-index:61;left:50%;top:calc(env(safe-area-inset-top,0px) + 14px);translate:-50% 0;width:min(560px,calc(100% - 20px));max-height:calc(100dvh - 28px - env(safe-area-inset-top,0px));overflow:auto;padding:18px;border-radius:16px;background:var(--b1);border:1px solid var(--cardb);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.mh{display:flex;align-items:center;justify-content:space-between;gap:10px}.mh h2{margin:0;font-size:18px}
+.mp label{display:block;margin:12px 0 6px;font-size:13px;font-weight:600;color:var(--mut)}
+.mc{max-height:170px;overflow:auto;display:grid;gap:2px;padding:6px;border-radius:10px;border:1px solid var(--cardb)}
+.mp .ck{display:flex;gap:10px;align-items:center;margin:0;padding:8px;font-weight:500;color:var(--ink);font-size:14px}.ck input{width:auto;min-height:0}
+.up{display:flex;gap:12px;align-items:center}.up input[type=file]{margin-bottom:6px;min-height:0;padding:8px}
+#pv{display:grid;place-items:center;width:76px;height:76px;flex:none;border-radius:12px;border:1px solid var(--cardb);background:var(--card);font-size:11px;color:var(--mut);text-align:center;overflow:hidden}#pv img{max-width:100%;max-height:100%;object-fit:contain}
+input.col{padding:4px;height:46px}.err{color:var(--ba);min-height:20px;font-size:13px;margin:8px 0 0}.ma{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));translate:-50% 16px;opacity:0;pointer-events:none;z-index:70;padding:10px 18px;border-radius:99px;background:#0b0d12;color:#fff;font-size:14px;transition:.25s}#toast.on{opacity:1;translate:-50% 0}@media(min-width:900px){#toast{bottom:30px}}
+.al{display:flex;align-items:center;gap:12px}.th{width:44px;height:44px;flex:none;display:grid;place-items:center}.th .bd,.th .lgi{width:44px;height:44px}
+#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--b1);cursor:pointer;animation:io .5s ease 2.7s forwards}
+@keyframes io{to{opacity:0;visibility:hidden}}
+.iw{text-align:center;padding:0 20px}.iwm{display:flex;justify-content:center;font:800 clamp(46px,14vw,96px)/1 Sora,Inter,system-ui,sans-serif;letter-spacing:-.05em}
+.iwm span{display:inline-block;opacity:0;transform:translateY(.45em);animation:iu .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms + 200ms)}.iwm .b{color:var(--acc)}
+@keyframes iu{to{opacity:1;transform:none}}
+.iline{height:3px;width:0;margin:18px auto 14px;border-radius:2px;background:var(--acc);animation:il .8s cubic-bezier(.2,.8,.2,1) 1s forwards}@keyframes il{to{width:min(220px,50vw)}}
+.iw p{margin:0;color:var(--mut);font-size:14px;opacity:0;animation:iu .6s ease 1.5s forwards}
+@media (prefers-reduced-motion:reduce){#intro{display:none}}
+.bm{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(8,auto);gap:5px;max-width:480px;margin:14px auto}
+.mt2{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:2px;border-radius:9px;border:1px solid var(--cardb);background:var(--bg,var(--card));color:var(--tx,var(--ink));font-size:10px;font-weight:700;overflow:hidden;cursor:default;text-align:center;line-height:1.1}
+button.mt2{cursor:pointer}.mt2 b{font-size:12px}.mt2 img{width:72%;height:48%;object-fit:contain}.mt2.on{outline:2px solid var(--acc);outline-offset:1px}.mt2.dim{opacity:.35}
+.tl{border-left:2px solid var(--cardb);margin:10px 0 0 6px;padding-left:16px}.tl>div{position:relative;margin-bottom:14px}.tl>div::before{content:"";position:absolute;left:-23px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--acc)}
+.rk2{display:flex;align-items:center;gap:10px;margin:8px 0}.rk2 span{min-width:64px;font-weight:700;font-size:13px}.rk2 .bar{height:14px}.rk2 b{min-width:40px;text-align:right}
+audio{width:100%;margin-top:8px}.yr{font:700 20px Sora,sans-serif}
+.bmap{display:block;width:100%;max-width:560px;height:auto;margin:14px auto}
+.bmap path{stroke:var(--b1);stroke-width:1.6px;stroke-linejoin:round;vector-effect:non-scaling-stroke;transition:opacity .2s}
+.bmap path.act{cursor:pointer}.bmap path.act:hover{opacity:.85}.bmap path.on{stroke:var(--acc);stroke-width:3.5px}.bmap path.dim{opacity:.3}
+.bmap text,.bmap image{pointer-events:none}
+.rsv{width:74%;height:52%}.rsv path{fill:var(--acc);stroke:var(--b1);stroke-width:1.2px;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.pd{display:flex;gap:12px;align-items:flex-start}.pst{flex:none;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}.pst small{font-size:12px}
+a,button,[role=button]{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media (prefers-reduced-motion:reduce){.row{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px;font-family:sans-serif">O Cronolist precisa de JavaScript para funcionar.</p></noscript>
+<div id="app"></div><div id="modal"></div><div id="toast" role="status" aria-live="polite"></div>
+<div id="intro" aria-hidden="true"><div class="iw"><div class="iwm"><span style="--i:0">C</span><span style="--i:1">r</span><span style="--i:2">o</span><span style="--i:3">n</span><span style="--i:4">o</span><span class="b" style="--i:5">l</span><span class="b" style="--i:6">i</span><span class="b" style="--i:7">s</span><span class="b" style="--i:8">t</span></div><div class="iline"></div><p>Organização, consulta e história da TV brasileira.</p></div></div>
+<script>
+const $=s=>document.querySelector(s);
+const CLAUDE=!!(window.claude&&claude.use);
+const rows=(s,f)=>s.trim().split("\n").map(l=>f(l.split("|")));
+const IC={home:'<path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/>',pin:'<path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/>',cal:'<path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/>',dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',star:'<path d="M12 3l2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.3-.7z"/>',tv:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 3l4 4 4-4"/>',play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/>',x:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',l:'<path d="M15 6l-6 6 6 6"/>',r:'<path d="M9 6l6 6-6 6"/>',arr:'<path d="M5 12h14M13 6l6 6-6 6"/>',flag:'<path d="M5 21V4M5 4h12l-2 4 2 4H5"/>'};
+const ic=(n,s=20)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+const FLAG={1:'<rect width="30" height="20" fill="#009c3b"/><path d="M15 3l11 7-11 7-11-7z" fill="#ffdf00"/><circle cx="15" cy="10" r="4" fill="#002776"/>',
+2:'<rect width="30" height="20" fill="#fff"/>'+Array.from({length:7},(_,i)=>`<rect y="${i*40/13}" width="30" height="${20/13}" fill="#b22234"/>`).join("")+'<rect width="12" height="10.8" fill="#3c3b6e"/>',
+3:'<rect width="30" height="20" fill="#74acdf"/><rect y="6.7" width="30" height="6.6" fill="#fff"/><circle cx="15" cy="10" r="1.8" fill="#f6b40e"/>',
+4:'<rect width="10" height="20" fill="#0055a4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ef4135"/>',
+5:'<rect width="30" height="6.7" fill="#000"/><rect y="6.7" width="30" height="6.6" fill="#dd0000"/><rect y="13.3" width="30" height="6.7" fill="#ffce00"/>',
+6:'<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/>',
+7:'<rect width="12" height="20" fill="#006600"/><rect x="12" width="18" height="20" fill="#ff0000"/><circle cx="12" cy="10" r="3.2" fill="#ffd400"/>'};
+const flagFb=(n,c)=>`<svg class="${c}" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#94a3b8"/><text x="15" y="10.5" text-anchor="middle" dominant-baseline="central" style="font:700 8px Inter,sans-serif;fill:#fff">${String(n||"").slice(0,3).toUpperCase()}</text></svg>`;
+const flag=(id,c="fl")=>{const x=PX.find(p=>p.id===id);if(x&&x.logo)return `<img class="${c}" src="${ab(x.logo)}" alt="" loading="lazy">`;if(x&&x.url)return `<img class="${c}" src="${x.url}" alt="" loading="lazy" referrerpolicy="no-referrer" data-fb="${String(x.nome||"").slice(0,3)}">`;return FLAG[id]?`<svg class="${c}" viewBox="0 0 30 20" aria-hidden="true">${FLAG[id]}</svg>`:flagFb((x||{}).nome,c)};
+document.addEventListener("error",e=>{const i=e.target;if(i&&i.tagName==="IMG"&&i.dataset&&i.dataset.fb!=null){const w=document.createElement("span");w.innerHTML=flagFb(i.dataset.fb,i.className);i.replaceWith(w.firstChild)}},true);
+const PAISES=rows(`1|Brasil
+2|Estados Unidos
+3|Argentina
+4|França
+5|Alemanha
+6|Japão`,([id,nome])=>({id:+id,nome}));
+const UFS=Object.fromEntries("AC:Acre,AL:Alagoas,AP:Amapá,AM:Amazonas,BA:Bahia,CE:Ceará,DF:Distrito Federal,ES:Espírito Santo,GO:Goiás,MA:Maranhão,MT:Mato Grosso,MS:Mato Grosso do Sul,MG:Minas Gerais,PA:Pará,PB:Paraíba,PR:Paraná,PE:Pernambuco,PI:Piauí,RJ:Rio de Janeiro,RN:Rio Grande do Norte,RS:Rio Grande do Sul,RO:Rondônia,RR:Roraima,SC:Santa Catarina,SP:São Paulo,SE:Sergipe,TO:Tocantins".split(",").map(x=>x.split(":")));
+const REG={Norte:"AC AM AP PA RO RR TO",Nordeste:"AL BA CE MA PB PE PI RN SE","Centro-Oeste":"DF GO MT MS",Sudeste:"ES MG RJ SP",Sul:"PR RS SC"};
+const CAT={a:"TV Aberta",f:"TV Fechada",s:"Streaming",x:"Extinta",l:"Regional",i:"Internacional",p:"Partido"};
+const SLUG={aberta:"a",fechada:"f",streaming:"s",extintos:"x",partidos:"p"};
+// ===== DADOS — vêm do banco (db) e são cadastrados no painel administrativo. emissoras: {id,nome,sig,cor,c,loc}; c = a|f|s|x|l|i|p; loc = UF (l) ou id do país (i)
+const E=[];
+const PX=[];const ALLP=()=>[...PAISES,...PX];
+const paisOf=e=>e.c==="i"?+e.loc:1;
+// cronologias: {id,nome,ano,dur,si:"Em Exibição"|"Fora do Ar",di:"Atualizado"|"Desatualizado"|"Indisponível",em:[ids]}
+const CR=[];
+const DC={Atualizado:"ok",Desatualizado:"wa",Indisponível:"ba"};
+// Praças: PFMT = programa de praça de uma emissora (ex.: "Bom Dia Praça" da Globo) {id,em,nome}
+const PFMT=[];
+// JN = jornais do programa {id,f,nome,uf,em (emissora que exibe),desc,per}
+const JN=[];
+const MOD=rows(`1|Futebol|⚽
+2|Automobilismo|🏎️
+3|Basquete|🏀
+4|Vôlei|🏐
+5|Tênis|🎾
+6|Handebol|🤾
+7|Atletismo|🏃
+8|Outros esportes|✨`,([id,nome,i])=>({id:+id,nome,i}));
+// competições: {id,m,nome,cl:[classificações],ano,d,em:[ids]}
+const COMP=[];
+// agenda: {d:"AAAA-MM-DD",h,t,em,cat,st}
+const AG=[];
+// faixas: {em,nome,i,f,d:"dias 0-6",pr,desc}
+const FX=[];
+const LAN=[];
+const DIAS=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+const TABS=[["inicio","Início","home"],["pracas","Praças","pin"],["esportes","Esportes","trophy"],["programacao","Programação","cal"],["mais","Mais","dots"]];
+const M0=()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),1)};
+const ST={q:"",cat:"",pt:"c",pe:0,dia:new Date().getDay(),cal:{m:M0(),sel:null},th:"auto",f:{q:"",em:"",di:"",si:"",or:"data-recente",pg:1},bq:""};
+const PER=12;
+const nome=id=>(E.find(e=>e.id===id)||{}).nome||"";
+const crOf=id=>CR.filter(c=>c.em.includes(id));
+const HITS=()=>{try{return JSON.parse(localStorage.getItem("cl_hits")||"{}")}catch(e){return{}}};
+let HDB={},HMINE={};const HM=()=>DBH&&CLAUDE?HDB:HITS();
+function hit(id){if(!id)return;try{const h=HITS();h[id]=(h[id]||0)+1;localStorage.setItem("cl_hits",JSON.stringify(h))}catch(e){}
+ if(DBH&&UID){HMINE[id]=(HMINE[id]||0)+1;clearTimeout(hit.t);hit.t=setTimeout(()=>DBH.collection("hits").doc(UID).set({c:HMINE}).catch(()=>{}),1500)}}
+const badge=e=>{if(e.logo)return `<img class="lgi" src="${ab(e.logo)}" alt="${e.nome}" loading="lazy" draggable="false">`;const s=e.sig||e.nome||"";return `<i class="bd" style="--c:${e.cor||"#2f7bff"};font-size:${s.length>8?9:s.length>5?11:s.length>3?13:16}px">${s}</i>`};
+const sq=(e,rk)=>`<a class="sq" href="#emissora-${e.id}">${rk?`<em class="rk">${rk}</em>`:""}${badge(e)}<span>${e.nome}</span></a>`;
+const sqF=p=>`<a class="sq" href="#pais-${p.id}">${flag(p.id)}<span>${p.nome}</span></a>`;
+const sc=(id,d)=>{const r=$("#"+id);r.scrollBy({left:d*r.clientWidth*.8,behavior:"smooth"})};
+const car=(id,items)=>!items?`<div class="empty">${EMP()}</div>`:`<div class="car"><button class="ar l" aria-label="Anterior" data-do="sc" data-arg="${id}" data-arg2="-1">${ic("l")}</button><div class="row" id="${id}">${items}</div><button class="ar r" aria-label="Próximo" data-do="sc" data-arg="${id}" data-arg2="1">${ic("r")}</button></div>`;
+const sec=(t,i,href,items,id)=>`<div class="sh"><h2>${ic(i,22)}${t}</h2><a class="va" href="#${href}">Ver todas ${ic("arr",14)}</a></div>${car(id,items)}`;
+const tabs=(a,c)=>`<nav class="${c}" aria-label="Principal">${TABS.map(([h,t,i])=>`<a href="#${h}" class="${h===a?"on":""}">${ic(i,c==="bn"?24:18)}<span>${t}</span></a>`).join("")}</nav>`;
+const page=(a,body,i)=>`<header class="hd"><div class="wrap hr"><a class="logo" href="#inicio" aria-label="Cronolist"><b class="wm">Crono<i>list</i></b></a>${tabs(a,"dn")}<span class="acts"><a class="ib" href="#busca" aria-label="Pesquisar">${ic("search")}</a><a class="ib" href="#mais" aria-label="Menu">${ic("menu")}</a></span></div></header><main class="wrap">${i?`<div class="sub"><a class="ib" href="#${i.back}" aria-label="Voltar">${ic("l",22)}</a><div><h1>${i.t}</h1><p class="cr">${i.cr.map(([l,h])=>h?`<a href="#${h}">${l}</a>`:l).join(" › ")}</p></div></div>`:""}${body}<footer class="ft"><b class="wm">Crono<i>list</i></b><nav class="fn"><a href="#inicio">Início</a><a href="#pracas">Praças</a><a href="#esportes">Esportes</a><a href="#programacao">Programação</a><a href="#pede">Pede Aqui</a><a href="#plus">Cronolist +</a><a href="#cronologias">Cronologias</a><a href="#admin">Administração</a></nav><small>© ${new Date().getFullYear()} Cronolist · Um site NovarkPlus</small></footer></main>${tabs(a,"bn")}`;
+const ina=(t,back,cr)=>({t,back,cr:[["Início","inicio"],...cr]});
+
+function vHome(){const all=CR.length,ok=CR.filter(c=>c.di==="Atualizado").length,p=all?Math.round(ok/all*100):0,h=HM();
+ const top=E.filter(e=>"afxli".includes(e.c)).map((e,i)=>({e,i,n:h[e.id]||0})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,10);
+ const by=c=>E.filter(e=>e.c===c).slice(0,10).map(e=>sq(e)).join("");
+ return page("inicio",`<p class="tag">Organização, consulta e história da TV brasileira.</p><div class="pc"><p>Porcentagem de cronologias atualizadas</p><div class="pr"><div class="bar"><i style="--p:${p}%"></i></div><b>${p}%</b></div><span class="mut">${ok} de ${all} cronologias atualizadas</span></div>
+ <div class="sh"><h2>${ic("star",22)}TOP 10 <small>· Emissoras mais acessadas</small></h2><a class="va" href="#lista-aberta">Acessar todas ${ic("arr",14)}</a></div>${car("t10",top.map((x,i)=>sq(x.e,i+1)).join(""))}
+ <a class="cta" href="#cronologias">${ic("cal",28)}<div>ACESSAR TODAS AS CRONOLOGIAS<small>Pesquisa, filtros, status e datas</small></div></a>
+ <a class="card" href="#pede" style="display:flex;align-items:center;gap:12px;margin-top:14px"><div style="flex:1"><b style="font:700 17px Sora,sans-serif">Pede Aqui</b><p class="mut" style="margin:2px 0 0">Cronologias pedidas ao canal · ${PED.length} pedido${PED.length!==1?"s":""} · ${PED.filter(x=>x.st==="Realizado").length} realizado${PED.filter(x=>x.st==="Realizado").length!==1?"s":""}</p></div>${ic("arr",18)}</a>
+ <div class="sh"><h2>Cronolist +</h2><a class="va" href="#plus">Ver tudo ${ic("arr",14)}</a></div><div class="lst c3">${PLUS.map(([h,t,d])=>`<a class="card" href="#${h}"><h3>${t}</h3><p>${d}</p></a>`).join("")}</div>
+ <div class="sh big"><h2>Geral</h2></div>
+ ${sec("TV Aberta","tv","lista-aberta",by("a"),"ca")}${sec("TV Fechada","tv","lista-fechada",by("f"),"cf")}${sec("Streaming","play","lista-streaming",by("s"),"cs")}${sec("Extintos","x","lista-extintos",by("x"),"cx")}
+ <div class="sh"><h2>${ic("pin",22)}Regionais</h2></div>${car("cr",Object.keys(REG).map(sqR).join(""))}
+ ${sec("Nacionais / Internacionais","globe","lista-paises",ALLP().map(sqF).join(""),"cp")}${sec("Partidos","flag","lista-partidos",by("p"),"cpa")}`)}
+
+function drawList(c){const q=ST.q.toLowerCase(),l=(c==="paises"?ALLP():E.filter(e=>e.c===SLUG[c])).filter(e=>!q||e.nome.toLowerCase().includes(q));
+ $("#res").innerHTML=`<p class="mut">${l.length} registro${l.length!==1?"s":""}</p>`+(l.length?`<div class="eg">${l.map(e=>c==="paises"?sqF(e):sq(e)).join("")}</div>`:`<p class="mut c mt">${q?"Nada encontrado.":EMP()}</p>`)}
+function vLista(c){const t={aberta:"TV Aberta",fechada:"TV Fechada",streaming:"Streaming",extintos:"Extintos",partidos:"Partidos",paises:"Nacionais / Internacionais"}[c];
+ return page("inicio",`<input class="mt" placeholder="Pesquisar em ${t}..." value="${ST.q}" data-in="listq" data-arg="${c}"><div id="res"></div>`,ina(t,"inicio",[[t,null]]))}
+function vEmissora(id){const e=E.find(x=>x.id===id);if(!e)return vHome();const l=crOf(id),pr=PFMT.filter(p=>p.em===id);
+ const back=e.c==="l"?"estado-"+e.loc:e.c==="i"?"pais-"+e.loc:"lista-"+{a:"aberta",f:"fechada",s:"streaming",x:"extintos",p:"partidos"}[e.c];
+ const info=e.c==="l"?UFS[e.loc]:e.c==="i"?(ALLP().find(p=>p.id===+e.loc)||{}).nome||"":"";
+ return page("inicio",`<div class="card hero">${badge(e)}<div><h2>${e.nome}</h2><span class="pill ok">${CAT[e.c]}</span>${ADM?` <button class="btn sm" data-do="edit" data-arg="E" data-arg2="${e.id}">Editar</button>`:""}${info?`<p class="mut">${info}</p>`:""}</div></div>
+ ${pr.length?`<a class="cta" href="#prem-${id}">${ic("pin",24)}<div>Ver praças e telejornais<small>${pr.length} programa(s) de praça</small></div></a>`:""}
+ <div class="sh"><h2>Cronologias (${l.length})</h2></div>${l.length?`<div class="lst c3">${l.map(c=>`<div class="card cc ${DC[c.di]}"><h3>${c.nome}</h3><span class="pill ${DC[c.di]}">${c.di}</span><p>${c.si} · Estreia: ${c.ano}</p><p>Duração: ${c.dur}</p></div>`).join("")}</div>`:`<p class="mut">Nenhuma cronologia cadastrada para este registro.</p>`}`,ina(e.nome,back,[[CAT[e.c],back],[e.nome,null]]))}
+function vRegiao(r){if(!REG[r])return vHome();return page("inicio",`${regMap(r)}<div class="sg">${REG[r].split(" ").map(u=>{const n=E.filter(e=>e.c==="l"&&e.loc===u).length;return `<a class="stt" href="#estado-${u}"><b>${u}</b>${UFS[u]}<br><span class="mut">${n} emissora${n!==1?"s":""}</span></a>`}).join("")}</div>`,ina(r,"inicio",[["Regionais",null],[r,null]]))}
+function vEstado(u){const reg=Object.keys(REG).find(r=>REG[r].split(" ").includes(u)),l=E.filter(e=>e.c==="l"&&e.loc===u);
+ return page("inicio",l.length?`<div class="eg">${l.map(e=>sq(e)).join("")}</div>`:`<p class="mut c mt">Nenhuma emissora cadastrada neste estado.</p>`,ina(UFS[u]||u,"regiao-"+reg,[[reg,"regiao-"+reg],[UFS[u]||u,null]]))}
+function vPais(id){const p=ALLP().find(x=>x.id===id);if(!p)return vHome();const l=E.filter(e=>paisOf(e)===id&&"afxli".includes(e.c));
+ return page("inicio",`<div class="card hero">${flag(id,"fl big-fl")}<div><h2>${p.nome}</h2><p class="mut">${l.length} emissora(s)</p></div></div>${l.length?`<div class="eg">${l.map(e=>sq(e)).join("")}</div>`:`<p class="mut c">Nenhuma emissora cadastrada.</p>`}`,ina(p.nome,"lista-paises",[["Nacionais / Internacionais","lista-paises"],[p.nome,null]]))}
+
+const sel=(f,o,v)=>`<select data-ch="filt" data-arg="${f}">${o.map(([a,b])=>`<option value="${a}"${String(a)===String(v)?" selected":""}>${b}</option>`).join("")}</select>`;
+function setF(f,v){ST.f[f]=v;if(f!=="pg")ST.f.pg=1;drawCron()}
+function drawCron(){const f=ST.f,q=f.q.toLowerCase();let l=CR.filter(c=>(!q||c.nome.toLowerCase().includes(q))&&(!f.em||c.em.includes(+f.em))&&(!f.di||c.di===f.di)&&(!f.si||c.si===f.si));
+ const y=c=>+c.ano||0;l.sort(f.or==="alfabetica"?(a,b)=>a.nome.localeCompare(b.nome):f.or==="ordem-cronologica"?(a,b)=>y(a)-y(b):(a,b)=>y(b)-y(a));
+ const tp=Math.max(1,Math.ceil(l.length/PER));f.pg=Math.min(f.pg,tp);const n=l.length;
+ $("#rc").innerHTML=`<p class="mut">${n} cronologia${n!==1?"s":""} encontrada${n!==1?"s":""}</p>`+(n?`<div class="lst c3">${l.slice((f.pg-1)*PER,f.pg*PER).map(c=>`<a class="card cc ${DC[c.di]}" href="#emissora-${c.em[0]}"><h3>${c.nome}</h3><div>${c.em.slice(0,3).map(i=>`<span class="chip">${nome(i)}</span>`).join("")}</div><p>${c.si==="Em Exibição"?"📺 Em Exibição":"📴 Fora do Ar"}</p><p class="${DC[c.di]}"><b>${c.di}</b></p></a>`).join("")}</div>`:`<p class="mut c mt">Nenhuma cronologia encontrada</p>`)+(tp>1?`<div class="pgn"><button class="btn" ${f.pg<2?"disabled":""} data-do="pg" data-arg="${f.pg-1}">Anterior</button><span class="mut">Página ${f.pg} de ${tp}</span><button class="btn" ${f.pg>=tp?"disabled":""} data-do="pg" data-arg="${f.pg+1}">Próxima</button></div>`:"")}
+function vCron(){const f=ST.f;return page("inicio",`<div class="fg"><input placeholder="Buscar cronologias..." value="${f.q}" data-in="fq">${sel("em",[["","Todas as emissoras"],...E.filter(e=>"afxli".includes(e.c)||e.c==="s").map(e=>[e.id,e.nome])],f.em)}${sel("di",[["","Todos os status"],["Atualizado","Atualizado"],["Desatualizado","Desatualizado"],["Indisponível","Indisponível"]],f.di)}${sel("si",[["","Todas as situações"],["Em Exibição","Em Exibição"],["Fora do Ar","Fora do Ar"]],f.si)}${sel("or",[["data-recente","Data Recente"],["ordem-cronologica","Ordem Cronológica"],["alfabetica","Alfabética"]],f.or)}</div><div id="rc"></div>`,ina("Cronologias","inicio",[["Cronologias",null]]))}
+
+function drawPracas(){const q=ST.q.toLowerCase(),l=E.filter(e=>"afxl".includes(e.c)&&(!q||e.nome.toLowerCase().includes(q)));
+ $("#rp").innerHTML=l.length?`<div class="eg">${l.map(e=>`<a class="sq" href="#prem-${e.id}">${badge(e)}<span>${e.nome}</span></a>`).join("")}</div>`:`<div class="empty mt">${q?"Nada encontrado.":EMP()}</div>`}
+function vPracas(){return page("pracas",`<input class="mt" placeholder="Pesquisar emissora..." value="${ST.q}" data-in="praq"><div id="rp"></div>`,{t:"Praças",back:"inicio",cr:[["Início","inicio"],["Praças",null]]})}
+const jSub=j=>[j.uf,nome(j.em)].filter(Boolean).join(" | ");
+function vPrem(id){const e=E.find(x=>x.id===id);if(!e)return vPracas();const l=PFMT.filter(f=>f.em===id);
+ return page("pracas",`<div class="card hero">${badge(e)}<div><h2>${e.nome}</h2><p class="mut">${l.length} programa(s) de praça</p></div></div>${l.length?`<div class="lst c2">${l.map(f=>{const n=JN.filter(j=>j.f===f.id).length;return `<a class="card" href="#pf-${f.id}"><h3>${f.nome}</h3><p>${n} jornal${n!==1?"is":""}</p></a>`}).join("")}</div>`:`<div class="empty mt">Nenhum programa de praça cadastrado para esta emissora.</div>`}`,{t:e.nome,back:"pracas",cr:[["Início","inicio"],["Praças","pracas"],[e.nome,null]]})}
+function vPf(id){const f=PFMT.find(x=>x.id===id);if(!f)return vPracas();const e=E.find(x=>x.id===f.em)||{nome:""},l=JN.filter(j=>j.f===id).sort((a,b)=>a.nome.localeCompare(b.nome));
+ return page("pracas",`<p class="mut mt">Lista de jornais</p>${l.length?`<div class="lst c2">${l.map(j=>`<a class="card" href="#jn-${j.id}"><h3>${j.nome}</h3><p>${jSub(j)}</p></a>`).join("")}</div>`:`<div class="empty mt">Nenhum jornal cadastrado neste programa.</div>`}`,{t:f.nome,back:"prem-"+f.em,cr:[["Início","inicio"],["Praças","pracas"],[e.nome,"prem-"+f.em],[f.nome,null]]})}
+function vJn(id){const j=JN.find(x=>x.id===id);if(!j)return vPracas();const f=PFMT.find(x=>x.id===j.f)||{em:0,nome:"",id:0},e=E.find(x=>x.id===f.em)||{nome:""},ex=E.find(x=>x.id===j.em);
+ return page("pracas",`<div class="card mt"><h3 style="margin:0 0 6px">${j.nome}</h3><p class="mut" style="margin:0 0 8px">${jSub(j)}</p>${j.desc?`<p>${j.desc}</p>`:""}<p class="mut">Programa: <a href="#pf-${f.id}" style="text-decoration:underline">${f.nome}</a>${ex?`<br>Emissora: <a href="#emissora-${ex.id}" style="text-decoration:underline">${ex.nome}</a>`:""}${j.per?`<br>Período: ${j.per}`:""}</p></div>`,{t:j.nome,back:"pf-"+f.id,cr:[["Início","inicio"],["Praças","pracas"],[e.nome,"prem-"+f.em],[f.nome,"pf-"+f.id],[j.nome,null]]})}
+
+function vEsportes(){return page("esportes",`<div class="eg">${MOD.map(m=>{const n=COMP.filter(c=>c.m===m.id).length;return `<a class="sq" href="#mod-${m.id}"><b style="font-size:30px">${m.i}</b><span>${m.nome}<br><small class="mut">${n===1?"1 competição":n+" competições"}</small></span></a>`}).join("")}</div>`,{t:"Esportes",back:"inicio",cr:[["Início","inicio"],["Esportes",null]]})}
+function vMod(id){const m=MOD.find(x=>x.id===id);if(!m)return vEsportes();const cs=COMP.filter(c=>c.m===id),cl=["Municipal","Estadual","Regional","Nacional","Continental","Mundial"].filter(k=>cs.some(c=>c.cl.includes(k))),k=cl.includes(ST.cat)?ST.cat:"",l=cs.filter(c=>!k||c.cl.includes(k));
+ return page("esportes",`${cl.length?`<div class="chips"><button class="${k?"":"on"}" data-do="set" data-arg="cat" data-arg2="">Todas</button>${cl.map(c=>`<button class="${k===c?"on":""}" data-do="set" data-arg="cat" data-arg2="${c}">${c}</button>`).join("")}</div>`:""}${l.length?`<div class="lst c2">${l.map(c=>`<a class="card" href="#comp-${c.id}"><h3>${c.nome}</h3>${c.cl.map(x=>`<span class="chip">${x}</span>`).join("")}<p>Temporada ${c.ano}</p></a>`).join("")}</div>`:`<p class="mut c mt">Nenhuma competição cadastrada nesta modalidade.</p>`}`,{t:m.nome,back:"esportes",cr:[["Início","inicio"],["Esportes","esportes"],[m.nome,null]]})}
+function vComp(id){const c=COMP.find(x=>x.id===id);if(!c)return vEsportes();const m=MOD.find(x=>x.id===c.m);
+ return page("esportes",`<div class="card mt">${c.logo?`<img class="lgi" style="width:72px;height:72px;margin-bottom:8px" src="${ab(c.logo)}" alt="">`:""}<p style="margin:0 0 8px">${c.d||""}</p>${c.cl.map(x=>`<span class="chip">${x}</span>`).join("")}<p class="mut">${m.nome} · Temporada ${c.ano}</p></div>${c.em.length?`<div class="sh"><h2>Emissoras responsáveis pela transmissão</h2></div><div class="eg">${c.em.map(i=>sq(E.find(e=>e.id===i))).join("")}</div>`:""}`,{t:c.nome,back:"mod-"+m.id,cr:[["Início","inicio"],["Esportes","esportes"],[m.nome,"mod-"+m.id],[c.nome,null]]})}
+
+function calHtml(){const c=ST.cal,y=c.m.getFullYear(),m=c.m.getMonth(),by={};AG.forEach(i=>(by[i.d]=by[i.d]||[]).push(i));
+ const nd=new Date(y,m+1,0).getDate(),days=[...Array(new Date(y,m,1).getDay()).fill(null),...Array.from({length:nd},(_,i)=>`${y}-${String(m+1).padStart(2,"0")}-${String(i+1).padStart(2,"0")}`)],sl=c.sel?(by[c.sel]||[]):[];
+ const lg=k=>new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",weekday:"long",day:"2-digit",month:"long"}).format(new Date(k+"T12:00:00Z"));
+ return `<div class="g2 mt"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:800;text-transform:capitalize"><span>${c.m.toLocaleDateString("pt-BR",{month:"long",year:"numeric"})}</span><span><button class="btn" aria-label="Mês anterior" data-do="cal" data-arg="-1">‹</button> <button class="btn" aria-label="Próximo mês" data-do="cal" data-arg="1">›</button></span></div><div class="cal">${["D","S","T","Q","Q","S","S"].map(d=>`<span>${d}</span>`).join("")}${days.map(d=>d?`<button class="${c.sel===d?"on":by[d]?"has":""}" data-do="set" data-arg="cal.sel" data-arg2="${d}">${+d.slice(-2)}</button>`:"<i></i>").join("")}</div></div>
+ <div>${c.sel?`<p class="mut" style="text-transform:capitalize;margin:0 0 8px">${lg(c.sel)}</p>${sl.length?sl.map(i=>`<a class="card pi" href="#emissora-${i.em}"><span class="tm">${i.h}</span><div style="flex:1"><b>${i.t}</b><p class="mut" style="margin:3px 0 0">${nome(i.em)} · ${i.cat}</p></div><span class="pill ${i.st==="Confirmada"?"ok":"wa"}">${i.st}</span></a>`).join(""):`<div class="card c mut">Nenhuma cronologia programada nesta data</div>`}`:`<div class="card c mut" style="padding:40px 14px">Selecione uma data marcada no calendário.</div>`}</div></div>`}
+function calGo(d){ST.cal.m=new Date(ST.cal.m.getFullYear(),ST.cal.m.getMonth()+d,1);draw(1)}
+function faixas(){const ems=E.filter(e=>FX.some(f=>f.em===e.id));if(!ems.some(e=>e.id===ST.pe))ST.pe=ems[0]?ems[0].id:0;const l=FX.filter(f=>f.em===ST.pe&&f.d.includes(ST.dia)).sort((a,b)=>a.i.localeCompare(b.i));
+ return `<div class="chips">${ems.map(e=>`<button class="${ST.pe===e.id?"on":""}" data-do="set" data-arg="pe" data-arg2="${e.id}" data-num="1">${e.nome}</button>`).join("")}</div><div class="chips">${DIAS.map((d,i)=>`<button class="${ST.dia===i?"on":""}" data-do="set" data-arg="dia" data-arg2="${i}" data-num="1">${d}</button>`).join("")}</div>${l.length?l.map(f=>`<div class="card fx" style="margin-bottom:8px"><div class="t">${f.i}<small>até ${f.f}</small></div><div><b>${f.nome}</b>${f.pr?`<p class="mut" style="margin:4px 0 0">${f.pr}</p>`:""}${f.desc?`<p class="mut" style="margin:4px 0 0">${f.desc}</p>`:""}<p class="mut" style="margin:6px 0 0">${f.d.split("").map(x=>DIAS[x]).join(" · ")}</p></div></div>`).join(""):`<p class="mut c mt">Nenhuma faixa neste dia.</p>`}`}
+function vProg(){return page("programacao",`<div class="chips"><button class="${ST.pt==="c"?"on":""}" data-do="set" data-arg="pt" data-arg2="c">Cronologias</button><button class="${ST.pt==="f"?"on":""}" data-do="set" data-arg="pt" data-arg2="f">Faixas</button></div>${ST.pt==="c"?calHtml():faixas()}`,{t:"Programação",back:"inicio",cr:[["Início","inicio"],["Programação",null]]})}
+
+function vLanc(){return page("mais",`${LAN.length?"":`<p class="mut c mt">Nenhum lançamento cadastrado.</p>`}<div class="lst">${LAN.map(l=>`<div class="card"><b>${l.c}</b> <span class="pill ${DC[l.s]}">${l.s}</span><p class="mut" style="margin:6px 0 0">${l.desc||"Atualização sem descrição adicional."}</p></div>`).join("")}</div>`,{t:"Lançamentos",back:"mais",cr:[["Início","inicio"],["Mais","mais"],["Lançamentos",null]]})}
+function vMais(){return page("mais",`${ADM?`<a class="card" href="#admin" style="margin-top:14px"><h3 style="margin:0 0 4px">Painel administrativo</h3><p class="mut" style="margin:0">Cadastrar emissoras, logos, cronologias, praças, esportes e programação.</p></a>`:""}<div class="lst c2"><a class="card" href="#pede"><h3>Pede Aqui</h3><p>Cronologias pedidas ao canal.</p></a><a class="card" href="#plus"><h3>Cronolist +</h3><p>Mídia, eleições, trens, inéditos, partidos e estaduais.</p></a><a class="card" href="#cronologias"><h3>Todas as cronologias</h3><p>Pesquisa, filtros e status.</p></a><a class="card" href="#lancamentos"><h3>Lançamentos</h3><p>Atualizações recentes.</p></a></div>
+ <div class="sh"><h2>Aparência</h2></div><div class="chips">${[["auto","Automático"],["light","Claro"],["dark","Escuro"]].map(([v,t])=>`<button class="${ST.th===v?"on":""}" data-do="theme" data-arg="${v}">${t}</button>`).join("")}</div>
+ <div class="card mt"><h3 style="margin:0 0 6px">Sobre este protótipo</h3><p class="mut" style="margin:0">${CLAUDE?"Os dados ficam salvos no banco desta página. Só quem tem permissão de edição cadastra e altera registros. O TOP 10 conta os acessos de quem tem permissão de contribuir."+(DBH||LOAD?"":" Banco de dados indisponível nesta visualização."):"Os dados e as imagens ficam salvos no repositório do site. Só o administrador cadastra e altera registros. O TOP 10 conta os acessos feitos neste aparelho."}</p></div>`,{t:"Mais",back:"inicio",cr:[["Início","inicio"],["Mais",null]]})}
+function setTh(v){ST.th=v;try{localStorage.setItem("cl_th",v)}catch(e){}v==="auto"?document.documentElement.removeAttribute("data-theme"):document.documentElement.dataset.theme=v;draw(1)}
+function drawBusca(){const q=ST.bq.toLowerCase().trim();if(!q){$("#rb").innerHTML=`<p class="mut c mt">Digite para pesquisar emissoras, cronologias e competições.</p>`;return}
+ const em=E.filter(e=>e.nome.toLowerCase().includes(q)),cr=CR.filter(c=>c.nome.toLowerCase().includes(q)),cp=COMP.filter(c=>c.nome.toLowerCase().includes(q));
+ $("#rb").innerHTML=(em.length?`<div class="sh"><h2>Emissoras</h2></div><div class="eg">${em.map(e=>sq(e)).join("")}</div>`:"")+(cr.length?`<div class="sh"><h2>Cronologias</h2></div><div class="lst c2">${cr.map(c=>`<a class="card" href="#emissora-${c.em[0]}"><b>${c.nome}</b><p>${c.em.map(nome).join(", ")}</p></a>`).join("")}</div>`:"")+(cp.length?`<div class="sh"><h2>Competições</h2></div><div class="lst c2">${cp.map(c=>`<a class="card" href="#comp-${c.id}"><b>${c.nome}</b></a>`).join("")}</div>`:"")+(em.length+cr.length+cp.length?"":`<p class="mut c mt">Nada encontrado.</p>`)}
+function vBusca(){return page("inicio",`<input class="mt" autofocus placeholder="Pesquisar no Cronolist..." value="${ST.bq}" data-in="busq"><div id="rb"></div>`,ina("Pesquisa","inicio",[["Pesquisa",null]]))}
+
+
+// ===== Banco (db), painel administrativo e upload de logos =====
+let DBH=null,UID=null,ADM=false,LOAD=true,UP=null,FORM=null;
+const ARR={E,CR,PFMT,JN,COMP,AG,FX,LAN,PX},COLS={E:"emissoras",CR:"cronologias",PFMT:"programas",JN:"jornais",COMP:"competicoes",AG:"agenda",FX:"faixas",LAN:"lancamentos",PX:"paises"};
+const EMP=()=>LOAD?"Carregando…":LOADERR?"Não foi possível carregar os dados.":"Nenhum registro cadastrado ainda.";
+const san=o=>{const r={};for(const k in o){const v=o[k];r[k]=typeof v==="string"?v.replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";"):v}return r};
+function refresh(){const a=document.activeElement;if(a&&a.closest&&a.closest("#app")&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;draw(1)}
+async function initDb(){const end=()=>{LOAD=false;refresh()};
+ try{let db,u;
+  if(CLAUDE){[db,u]=await Promise.all([claude.use("db"),claude.use("user")]);if(!db)return end();DBH=db;try{ADM=!!(u&&await u.canEdit());UID=u?await u.id():null}catch(e){}try{UP=await claude.use("assets")}catch(e){}}
+  else{db=await standaloneDb();DBH=db;ADM=GH.ok;if(GH.ok)UP={upload:ghUpload}}
+  let n=0;const tot=Object.keys(COLS).length+1,ok=()=>{if(++n>=tot)LOAD=false;refresh()};
+  setTimeout(()=>{if(LOAD)end()},10000);
+  Object.keys(COLS).forEach(k=>{let f=true;db.collection(COLS[k]).onSnapshot(s=>{const a=ARR[k];a.length=0;s.docs.forEach(d=>a.push(san(d.data())));if(f){f=false;ok()}else refresh()},()=>{if(f){f=false;ok()}})});
+  let f2=true;db.collection("hits").onSnapshot(s=>{HDB={};s.docs.forEach(d=>{const c=(d.data()||{}).c||{};for(const i in c)HDB[i]=(HDB[i]||0)+c[i];if(UID&&d.id===UID&&f2)HMINE={...c}});if(f2){f2=false;ok()}else refresh()},()=>{if(f2){f2=false;ok()}});
+ }catch(e){end()}}
+const CLS=["Municipal","Estadual","Regional","Nacional","Continental","Mundial"];
+const eOpt=()=>E.map(e=>[e.id,e.nome]).sort((a,b)=>a[1].localeCompare(b[1]));
+const stOpt=()=>["Atualizado","Desatualizado","Indisponível"].map(x=>[x,x]);
+const SCH={
+E:["Emissora",[["nome","Nome","text"],["c","Categoria","sel",()=>Object.entries(CAT)],["loc","Estado ou país","loc"],["sig","Sigla (usada se não houver logo)","text"],["cor","Cor da etiqueta","color"],["logo","Logo (PNG, JPG, WebP ou SVG)","img"]],e=>e.nome+" · "+(CAT[e.c]||"")],
+CR:["Cronologia",[["nome","Nome","text"],["ano","Ano de estreia","text"],["dur","Período (ex.: 1969–hoje)","text"],["si","Situação","sel",()=>["Em Exibição","Fora do Ar"].map(x=>[x,x])],["di","Status","sel",stOpt],["em","Emissoras","multi",eOpt]],c=>c.nome+" · "+c.di],
+PFMT:["Programa de praça",[["em","Emissora","sel",eOpt],["nome","Nome (ex.: Bom Dia Praça)","text"]],f=>f.nome+" · "+nome(f.em)],
+JN:["Jornal",[["f","Programa de praça","sel",()=>PFMT.map(f=>[f.id,f.nome+" · "+nome(f.em)])],["nome","Nome (ex.: Bom Dia Acre)","text"],["uf","Estado","sel",()=>Object.entries(UFS)],["em","Emissora que exibe","sel",eOpt],["desc","Descrição","area"],["per","Período de exibição","text"]],j=>j.nome+" · "+jSub(j)],
+COMP:["Competição",[["m","Modalidade","sel",()=>MOD.map(m=>[m.id,m.nome])],["nome","Nome","text"],["cl","Classificações","multi",()=>CLS.map(x=>[x,x])],["ano","Temporada","text"],["d","Descrição","area"],["em","Emissoras que transmitem","multi",eOpt],["logo","Logotipo","img"]],c=>c.nome],
+AG:["Agenda",[["d","Data","date"],["h","Horário","time"],["t","Nome da cronologia","text"],["em","Emissora","sel",eOpt],["cat","Categoria","text"],["st","Status","sel",()=>["Confirmada","A confirmar"].map(x=>[x,x])]],a=>a.d+" · "+a.t],
+FX:["Faixa",[["em","Emissora","sel",eOpt],["nome","Nome da faixa","text"],["i","Início","time"],["f","Término","time"],["d","Dias de exibição","multi",()=>DIAS.map((x,i)=>[String(i),x])],["pr","Programas relacionados","text"],["desc","Descrição","area"]],f=>f.nome+" · "+nome(f.em)],
+LAN:["Lançamento",[["d","Data","date"],["c","Cronologia","text"],["s","Status","sel",stOpt],["desc","Descrição","area"]],l=>l.c],
+PX:["País",[["nome","Nome","text"],["logo","Bandeira (enviar imagem)","img"],["url","Bandeira por URL (https://)"+(CLAUDE?" — não carrega nesta pré-visualização":""),"text"]],p=>p.nome]};
+const REQ={E:["nome","c"],CR:["nome"],PFMT:["em","nome"],JN:["f","nome"],COMP:["m","nome"],AG:["d","t","em"],FX:["em","nome","i","f"],LAN:["d","c"],PX:["nome"]},NUM=new Set(["em","f","m"]);
+function locH(c,v){if(c==="l")return `<select name="loc"><option value="">Selecione o estado…</option>${Object.entries(UFS).map(([a,b])=>`<option value="${a}"${v===a?" selected":""}>${a} — ${b}</option>`).join("")}</select>`;
+ if(c==="i")return `<select name="loc"><option value="">Selecione o país…</option>${ALLP().map(p=>`<option value="${p.id}"${String(v)===String(p.id)?" selected":""}>${p.nome}</option>`).join("")}</select>`;
+ return `<p class="mut" style="margin:0">Não se aplica a esta categoria.</p>`}
+function fld([key,lab,type,opt],o){const v=o[key]==null?"":o[key];let x="";
+ if(type==="text"||type==="date"||type==="time")x=`<input name="${key}" type="${type}" value="${v}" autocomplete="off">`;
+ else if(type==="color")x=`<input class="col" name="${key}" type="color" value="${v||"#2f7bff"}">`;
+ else if(type==="area")x=`<textarea name="${key}" rows="3">${v}</textarea>`;
+ else if(type==="sel")x=`<select name="${key}"${key==="c"?" data-ch=\"cat\"":""}><option value="">Selecione…</option>${opt().map(([a,b])=>`<option value="${a}"${String(v)===String(a)?" selected":""}>${b}</option>`).join("")}</select>`;
+ else if(type==="multi"){const s=(Array.isArray(v)?v:String(v).split("")).map(String),l=opt();x=`<div class="mc">${l.length?l.map(([a,b])=>`<label class="ck"><input type="checkbox" name="${key}" value="${a}"${s.includes(String(a))?" checked":""}><span>${b}</span></label>`).join(""):`<span class="mut" style="padding:8px">Nenhuma opção cadastrada ainda.</span>`}</div>`}
+ else if(type==="loc")x=`<div id="locw">${locH(o.c,v)}</div>`;
+ else if(type==="aud")x=`<div class="up"><span id="avp">${o.audio?`<audio controls src="${ab(o.audio)}"></audio>`:"Sem áudio"}</span><div><input type="file" accept="audio/*" data-ch="aud"><button type="button" class="btn sm" data-do="clraud">Remover áudio</button><p class="mut" id="aum" style="margin:6px 0 0">${CLAUDE?"Arquivo curto (até 170 KB).":"Arquivo de áudio (até 3 MB)."}</p></div></div>`;
+ else if(type==="img")x=`<div class="up"><span id="pv">${o.logo?`<img src="${ab(o.logo)}" alt="">`:"Sem imagem"}</span><div><input type="file" accept="image/*" data-ch="logo"${UP?"":" disabled"}><button type="button" class="btn sm" data-do="clrlogo">Remover imagem</button><p class="mut" id="upm" style="margin:6px 0 0">${UP?"PNG com fundo transparente fica melhor.":"Envio de imagens indisponível para o seu acesso."}</p></div></div>`;
+ return `<label>${lab}</label>${x}`}
+function openForm(k,id){const[t,fs]=SCH[k],o=id?(ARR[k].find(x=>x.id===id)||{}):{};FORM={k,id,logo:o.logo||"",audio:o.audio||""};
+ $("#modal").innerHTML=`<div class="mb" data-do="close"></div><form class="mp glass2" data-sub="save" novalidate><div class="mh"><h2>${id?"Editar":"Novo"} — ${t}</h2><button type="button" class="ib" data-do="close" aria-label="Fechar">✕</button></div>${fs.map(f=>fld(f,o)).join("")}<p class="err" id="ferr"></p><div class="ma">${id?`<button type="button" class="btn dng" data-do="ask" data-arg="${k}" data-arg2="${id}">Excluir</button>`:""}<button type="button" class="btn" data-do="close">Cancelar</button><button class="btn p" id="fsave">Salvar</button></div></form>`;
+ document.body.classList.add("mo")}
+function closeForm(){$("#modal").innerHTML="";document.body.classList.remove("mo");FORM=null}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("on"),2400)}
+async function saveForm(ev){ev.preventDefault();if(!FORM||!DBH)return;const{k,id}=FORM,fd=new FormData(ev.target),fs=SCH[k][1],o={id:id||Date.now()};
+ for(const[key,,type]of fs){if(type==="img")o.logo=FORM.logo;else if(type==="aud")o.audio=FORM.audio||"";else if(type==="multi"){const a=fd.getAll(key);o[key]=key==="d"?a.join(""):key==="em"?a.map(Number):a}else{const v=fd.get(key);const s=v==null?"":String(v).trim();o[key]=type==="sel"&&NUM.has(key)&&s?+s:s}}
+ if(k==="E"&&!o.sig)o.sig=(o.nome||"").slice(0,8);
+ const miss=REQ[k].find(q=>!o[q]);if(miss){$("#ferr").textContent="Preencha: "+fs.find(f=>f[0]===miss)[1];return}
+ if(k==="E"&&(o.c==="l"||o.c==="i")&&!o.loc){$("#ferr").textContent="Selecione o "+(o.c==="l"?"estado":"país");return}
+ if(k==="E"&&o.c!=="l"&&o.c!=="i")o.loc="";
+ if(k==="PX"&&o.url&&!/^https:\/\//i.test(o.url)){$("#ferr").textContent="O endereço da bandeira deve começar com https://";return}
+ if(k==="PED"){if(!o.st)o.st="Pendente";if(o.st==="Realizado"&&!o.dfeito){$("#ferr").textContent="Informe a data de realização.";return}if(o.st!=="Realizado")o.dfeito=""}
+ const b=$("#fsave");b.disabled=true;
+ try{await DBH.collection(COLS[k]).doc(String(o.id)).set(o);closeForm();toast("Salvo")}catch(e){$("#ferr").textContent="Não foi possível salvar ("+((e&&e.code)||"erro")+").";b.disabled=false}}
+async function pickLogo(inp){const f=inp.files[0],m=$("#upm");if(!f)return;if(!UP){m.textContent="Envio indisponível.";return}
+ if(f.size>8e6){m.textContent="Imagem muito grande (máximo 8 MB).";return}
+ m.textContent="Enviando…";
+ try{let blob=f;if(f.type!=="image/svg+xml"){try{const bm=await createImageBitmap(f),s=Math.min(1,512/Math.max(bm.width,bm.height)),c=document.createElement("canvas");c.width=Math.round(bm.width*s);c.height=Math.round(bm.height*s);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);blob=(await new Promise(r=>c.toBlob(r,"image/png")))||f}catch(e){blob=f}}
+  const r=await UP.upload(blob);FORM.logo=r.id;$("#pv").innerHTML=`<img src="${r.url}" alt="">`;m.textContent="Imagem enviada."}
+ catch(e){m.textContent="Falha no envio ("+((e&&e.code)||"erro")+")."}}
+function askDel(k,id){const o=ARR[k].find(x=>x.id===id);if(!o)return;
+ $("#modal").innerHTML=`<div class="mb" data-do="close"></div><div class="mp glass2"><h2 style="margin:0 0 8px">Excluir registro?</h2><p class="mut">${SCH[k][2](o)}${k==="E"?"<br>Cronologias, praças, jornais, agenda e faixas ligados a esta emissora serão atualizados ou removidos.":""}</p><div class="ma"><button class="btn" data-do="close">Cancelar</button><button class="btn dng" data-do="del" data-arg="${k}" data-arg2="${id}">Excluir</button></div></div>`}
+async function doDel(k,id){try{if(k==="E")await cascade(id);await DBH.collection(COLS[k]).doc(String(id)).delete();closeForm();toast("Excluído")}catch(e){toast("Não foi possível excluir")}}
+async function cascade(id){const d=(n,x)=>DBH.collection(COLS[n]).doc(String(x.id));
+ for(const x of CR.filter(x=>x.em.includes(id)))await d("CR",x).update({em:x.em.filter(i=>i!==id)});
+ for(const x of COMP.filter(x=>x.em.includes(id)))await d("COMP",x).update({em:x.em.filter(i=>i!==id)});
+ for(const f of PFMT.filter(f=>f.em===id)){for(const j of JN.filter(j=>j.f===f.id))await d("JN",j).delete();await d("PFMT",f).delete()}
+ const fids=PFMT.filter(f=>f.em===id).map(f=>f.id);
+ for(const j of JN.filter(j=>j.em===id&&!fids.includes(j.f)))await d("JN",j).update({em:0});
+ for(const x of AG.filter(x=>x.em===id))await d("AG",x).delete();
+ for(const x of FX.filter(x=>x.em===id))await d("FX",x).delete()}
+function vAdmin(){const cr=[["Início","inicio"],["Mais","mais"],["Painel administrativo",null]];
+ if(!ADM)return page("mais",`${CLAUDE||LOAD?`<div class="empty mt">${LOAD?"Carregando…":DBH?"Área restrita. O painel administrativo só abre para a conta administradora do Cronolist.":"Área restrita. Entre com a conta administradora do Cronolist para acessar."}</div>`:loginCard()}`,{t:"Painel administrativo",back:"mais",cr});
+ const k=SCH[ST.ak]?ST.ak:"E";
+ return page("mais",`${CLAUDE?"":`<div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><span class="mut">Conectado a ${GH.o}/${GH.r}</span><button class="btn sm" data-do="logout">Sair</button></div>`}<select class="mt" data-ch="adm" aria-label="Tipo de cadastro">${Object.keys(SCH).map(x=>`<option value="${x}"${x===k?" selected":""}>${SCH[x][0]}</option>`).join("")}</select><div style="display:flex;gap:8px;margin:4px 0 12px"><input placeholder="Pesquisar..." value="${ST.aq||""}" data-in="admq"><button class="btn p" style="white-space:nowrap" data-do="edit" data-arg="${k}">+ Novo</button></div><div id="ra"></div>`,{t:"Painel administrativo",back:"mais",cr})}
+function drawAdmin(){const k=SCH[ST.ak]?ST.ak:"E",q=(ST.aq||"").toLowerCase(),L=SCH[k][2],l=ARR[k].filter(x=>!q||L(x).toLowerCase().includes(q)).sort((a,b)=>L(a).localeCompare(L(b)));
+ $("#ra").innerHTML=l.length?`<div class="lst c2">${l.map(x=>`<div class="card al">${k==="E"?`<span class="th">${badge(x)}</span>`:x.logo?`<span class="th"><img class="lgi" src="${ab(x.logo)}" alt=""></span>`:""}<b style="flex:1;min-width:0;overflow-wrap:anywhere">${L(x)}</b><button class="btn sm" data-do="edit" data-arg="${k}" data-arg2="${x.id}">Editar</button></div>`).join("")}</div>`:`<div class="empty mt">${q?"Nada encontrado.":EMP()}</div>`}
+addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#modal").innerHTML)closeForm()});
+
+// ===== Eventos (delegação — sem atributos onclick/oninput inline) =====
+const setPath=(p,v)=>{const a=p.split(".");let o=ST;while(a.length>1)o=o[a.shift()];o[a[0]]=v};
+const ACT={close:()=>closeForm(),sc:el=>sc(el.dataset.arg,+el.dataset.arg2),theme:el=>setTh(el.dataset.arg),pg:el=>setF("pg",+el.dataset.arg),
+ edit:el=>openForm(el.dataset.arg,el.dataset.arg2?+el.dataset.arg2:undefined),del:el=>doDel(el.dataset.arg,+el.dataset.arg2),ask:el=>askDel(el.dataset.arg,+el.dataset.arg2),
+ cal:el=>calGo(+el.dataset.arg),set:el=>{const d=el.dataset;setPath(d.arg,d.num!=null?+d.arg2:d.arg2);if(d.clr)setPath(d.clr,"");draw(1)},
+ clrlogo:()=>{if(FORM)FORM.logo="";$("#pv").textContent="Sem imagem"}};
+const INP={fq:el=>setF("q",el.value),praq:el=>{ST.q=el.value;drawPracas()},listq:el=>{ST.q=el.value;drawList(el.dataset.arg)},busq:el=>{ST.bq=el.value;drawBusca()},admq:el=>{ST.aq=el.value;drawAdmin()}};
+const CHG={filt:el=>setF(el.dataset.arg,el.value),logo:el=>pickLogo(el),cat:el=>{$("#locw").innerHTML=locH(el.value,"")}};
+document.addEventListener("click",e=>{const el=e.target.closest&&e.target.closest("[data-do]");if(el&&ACT[el.dataset.do]){e.preventDefault();ACT[el.dataset.do](el)}});
+document.addEventListener("input",e=>{const el=e.target.closest&&e.target.closest("[data-in]");if(el&&INP[el.dataset.in])INP[el.dataset.in](el)});
+document.addEventListener("change",e=>{const el=e.target.closest&&e.target.closest("[data-ch]");if(el&&CHG[el.dataset.ch])CHG[el.dataset.ch](el)});
+document.addEventListener("submit",e=>{if(e.target.dataset&&e.target.dataset.sub==="save")saveForm(e)});
+
+// ===== Cronolist + =====
+const TRX=[],ELE=[],ERES=[],PRK=[],LIN=[],EST=[],OPER=[],LOP=[],SOM=[],PIN=[],PEVO=[],ETX=[];
+Object.assign(ARR,{TRX,ELE,ERES,PRK,LIN,EST,OPER,LOP,SOM,PIN,PEVO,ETX});
+Object.assign(COLS,{TRX:"midia",ELE:"eleicoes",ERES:"resultados",PRK:"prefeituras",LIN:"linhas",EST:"estacoes",OPER:"operadoras",LOP:"operacoes",SOM:"sons",PIN:"ineditos",PEVO:"partidos_evolucao",ETX:"estaduais"});
+Object.assign(ST,{md:{},el:{},tr:{},ine:{},es:{}});
+["comp","lin","oper"].forEach(x=>NUM.add(x));
+const MID=["Aberta","Fechada","Streaming"],CMPS=["Brasileirão Série A","Brasileirão Série B","Brasileirão Série C","Brasileirão Série D","Copa do Brasil","Supercopa do Brasil","Copa Libertadores","Copa Sul-Americana","Mundial de Clubes"],DIVS=["Primeira Divisão","Segunda Divisão","Terceira Divisão"],SIS=["Trem","Metrô","VLT","Monotrilho","Outro"];
+const PLUS=[["midia","Competição na Mídia","Quem transmitiu cada competição: aberta, fechada e streaming."],["eleicoes","Eleições","Datas e mapas de presidente, governadores e prefeituras."],["trens","Trens e Metrô","Linhas, estações, operadoras e efeitos sonoros."],["ineditos","Participantes inéditos","Estreantes de cada ano nas principais competições."],["evpartidos","Evolução de partidos","Números, siglas e nomes ao longo do tempo."],["estaduais","Estaduais na TV","Mapa das transmissões por estado."]];
+const ufOpt=()=>Object.entries(UFS),cmpNome=id=>(COMP.find(c=>c.id===id)||{}).nome||"",linNome=id=>(LIN.find(c=>c.id===id)||{}).nome||"",opNome=id=>(OPER.find(c=>c.id===id)||{}).nome||"";
+const linOpt=()=>LIN.map(l=>[l.id,l.nome+" · "+l.uf]).sort((a,b)=>a[1].localeCompare(b[1])),opOpt=()=>OPER.map(o=>[o.id,o.nome]).sort((a,b)=>a[1].localeCompare(b[1]));
+Object.assign(SCH,{
+TRX:["Competição na mídia",[["comp","Competição (cadastre antes em Competição)","sel",()=>COMP.map(c=>[c.id,c.nome])],["ano","Ano","text"],["midia","Mídia","sel",()=>MID.map(x=>[x,x])],["em","Emissoras","multi",eOpt],["obs","Observação","area"]],t=>cmpNome(t.comp)+" · "+t.ano+" · "+t.midia],
+ELE:["Eleição (datas)",[["ano","Ano","text"],["tipo","Tipo","sel",()=>[["Geral","Geral (presidente e governadores)"],["Municipal","Municipal (prefeitos)"]]],["d1","Data do 1º turno","date"],["d2","Data do 2º turno","date"],["desc","Descrição","area"]],e=>e.ano+" · "+e.tipo],
+ERES:["Resultado eleitoral por estado",[["ano","Ano","text"],["tipo","Cargo","sel",()=>[["Presidente","Presidente"],["Governador","Governador"],["Prefeito","Prefeito (capital)"]]],["uf","Estado","sel",()=>[["BR","Brasil (resultado nacional)"],...ufOpt()]],["nome","Nome","text"],["partido","Partido (sigla)","text"],["obs","Observação","area"]],r=>r.ano+" · "+r.tipo+" · "+r.uf+" · "+r.partido],
+PRK:["Prefeituras por partido",[["ano","Ano","text"],["partido","Partido (sigla)","text"],["qtd","Quantidade de prefeituras","text"]],r=>r.ano+" · "+r.partido+" · "+r.qtd],
+LIN:["Linha de trem/metrô",[["uf","Estado","sel",ufOpt],["sis","Sistema","sel",()=>SIS.map(x=>[x,x])],["nome","Nome (ex.: Linha 7 – Rubi)","text"],["cor","Cor da linha","color"],["ano","Ano de inauguração","text"],["mes","Mês de inauguração (1-12)","text"],["fim","Ano de desativação (se houver)","text"],["desc","Descrição","area"]],l=>l.nome+" · "+l.uf],
+EST:["Estação",[["lin","Linha","sel",linOpt],["nome","Nome da estação","text"],["ano","Ano de inauguração","text"],["mes","Mês (1-12)","text"],["desc","Detalhes","area"]],e=>e.nome+" · "+linNome(e.lin)],
+OPER:["Operadora",[["nome","Nome","text"],["cor","Cor","color"],["logo","Logo","img"]],o=>o.nome],
+LOP:["Operadora da linha (histórico)",[["lin","Linha","sel",linOpt],["oper","Operadora","sel",opOpt],["ano","Ano de início","text"],["mes","Mês (1-12)","text"],["fim","Ano de término (se houver)","text"]],x=>linNome(x.lin)+" · "+opNome(x.oper)+" · "+x.ano],
+SOM:["Efeito sonoro de estação",[["lin","Linha (opcional)","sel",linOpt],["oper","Operadora (opcional)","sel",opOpt],["modelo","Modelo do trem","text"],["ano","Ano de lançamento","text"],["desc","Descrição","area"],["audio","Áudio","aud"]],s=>s.modelo+" · "+(s.ano||"")],
+PIN:["Participante inédito",[["cmp","Competição","sel",()=>CMPS.map(x=>[x,x])],["ano","Ano","text"],["clube","Clube","text"],["parte","Parte","sel",()=>[["Brasil","Brasil"],["Internacional","Internacional"]]],["pais","País (se internacional)","text"],["logo","Escudo","img"]],x=>x.cmp+" · "+x.ano+" · "+x.clube],
+PEVO:["Evolução de partido",[["num","Número","text"],["ano","Ano","text"],["sigla","Sigla","text"],["nome","Nome completo","text"],["cor","Cor","color"],["logo","Logo","img"],["desc","Detalhes (fusão, mudança de nome...)","area"]],p=>p.num+" · "+p.ano+" · "+p.sigla],
+ETX:["Estaduais — transmissão",[["ano","Ano","text"],["gen","Gênero","sel",()=>[["Masculino","Masculino"],["Feminino","Feminino"]]],["niv","Nível","sel",()=>[["Profissional","Profissional"],["Sub","Sub"]]],["div","Divisão","sel",()=>DIVS.map(x=>[x,x])],["uf","Estado","sel",ufOpt],["em","Emissora","sel",eOpt]],x=>x.ano+" · "+x.uf+" · "+x.div+" · "+nome(x.em)]});
+Object.assign(REQ,{TRX:["comp","ano","midia"],ELE:["ano","tipo"],ERES:["ano","tipo","uf","partido"],PRK:["ano","partido","qtd"],LIN:["uf","nome","ano"],EST:["lin","nome","ano"],OPER:["nome"],LOP:["lin","oper","ano"],SOM:["modelo"],PIN:["cmp","ano","clube","parte"],PEVO:["num","ano","sigla"],ETX:["ano","gen","niv","div","uf","em"]});
+function pickAudio(inp){const f=inp.files[0],m=$("#aum");if(!f||!FORM)return;if(!CLAUDE){if(!GH.ok){m.textContent="Entre como administrador para enviar áudio.";return}if(f.size>3e6){m.textContent="Arquivo grande demais (máximo 3 MB).";return}m.textContent="Enviando…";ghUpload(f,f.name).then(r=>{FORM.audio=r.id;$("#avp").innerHTML=`<audio controls src="${r.url}"></audio>`;m.textContent="Áudio enviado."}).catch(e=>{m.textContent="Falha no envio: "+(e.message||"erro")});return}
+ if(f.size>170000){m.textContent="Arquivo grande demais (máximo 170 KB). Use um trecho curto.";return}
+ const r=new FileReader();r.onload=()=>{FORM.audio=r.result;$("#avp").innerHTML=`<audio controls src="${r.result}"></audio>`;m.textContent="Áudio carregado."};r.onerror=()=>{m.textContent="Falha ao ler o arquivo."};r.readAsDataURL(f)}
+Object.assign(ACT,{clraud:()=>{if(FORM)FORM.audio="";$("#avp").textContent="Sem áudio"}});
+Object.assign(CHG,{aud:el=>pickAudio(el),adm:el=>{ST.ak=el.value;ST.aq="";draw(1)}});
+
+const shortD=k=>k?new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",day:"2-digit",month:"2-digit",year:"numeric"}).format(new Date(k+"T12:00:00Z")):"";
+const pcor=s=>{const x=PEVO.filter(p=>p.sigla===s&&p.cor).sort((a,b)=>b.ano-a.ano)[0];return x?x.cor:"#94a3b8"};
+const yrsOf=l=>[...new Set(l.map(x=>x.ano).filter(Boolean))].sort((a,b)=>b-a);
+const pickY=(ys,v)=>ys.map(String).includes(String(v))?v:ys[0];
+const chs=(path,opts,cur,num)=>`<div class="chips">${opts.map(([v,l])=>`<button class="${String(v)===String(cur)?"on":""}" data-do="set" data-arg="${path}" data-arg2="${v}"${num?' data-num="1"':""}>${l}</button>`).join("")}</div>`;
+const emp=t=>`<div class="empty mt">${LOAD?"Carregando…":t}</div>`;
+const BRP={"RR":"M327 3 323 13 307 18 307 24 305 26 278 28 266 37 251 35 235 24 233 29 240 33 244 39 239 52 241 65 243 68 255 67 258 74 269 78 282 101 282 117 289 133 287 142 300 153 302 144 313 134 317 137 320 143 331 142 330 132 339 129 343 119 367 116 366 97 358 94 347 83 349 71 339 64 338 53 343 39 350 32 350 27 337 20 335 14 338 4Z","AP":"M555 136 547 140 537 157 554 146ZM545 24 533 34 518 67 506 79 494 77 487 83 475 82 469 76 469 88 490 95 494 106 504 111 506 127 525 145 525 154 528 155 531 154 544 134 552 129 573 107 580 94 580 85 568 83 566 81 556 54 555 35Z","PA":"M592 117 579 123 589 122 592 120ZM370 97 371 119 375 141 383 146 389 161 408 163 419 173 428 167 433 175 422 193 384 277 378 278 375 282 375 286 384 301 384 310 389 315 405 351 423 359 579 359 600 331 600 322 596 316 601 303 597 295 604 289 611 289 619 284 621 266 611 256 609 252 610 247 612 245 622 246 646 219 644 204 661 187 671 158 677 153 677 151 648 142 627 142 619 151 621 160 618 163 610 163 600 170 588 171 584 166 608 155 617 134 616 131 605 128 579 130 569 137 571 146 565 153 557 151 549 159 531 166 530 159 521 156 521 145 502 127 501 113 491 108 487 97 465 90 465 72 457 68 439 70 440 82 412 87 403 80 381 89 377 98Z","AM":"M429 175 426 172 419 177 408 167 388 165 380 148 372 143 368 119 345 122 342 131 334 134 333 145 319 146 313 138 306 144 302 159 283 142 285 132 278 116 278 100 267 81 262 78 253 77 244 80 244 87 237 95 211 98 205 108 185 110 175 100 170 103 165 98 167 88 162 80 158 81 156 89 152 91 148 91 143 85 110 85 107 89 109 96 119 97 124 107 117 115 109 112 102 114 101 131 111 141 110 149 118 156 106 232 102 234 81 229 75 237 54 236 33 250 26 282 10 292 9 303 46 315 95 319 191 365 212 366 220 358 225 358 228 354 226 344 241 339 243 337 244 326 259 313 274 313 280 326 291 330 302 330 308 336 376 334 381 325 379 319 381 303 371 283 376 275 382 274 416 198Z","MA":"M675 157 664 189 648 204 650 219 623 250 613 249 613 253 616 257 622 254 633 257 641 275 640 301 649 307 655 314 660 310 667 313 665 320 671 324 669 329 666 330 658 327 658 336 653 339 658 341 660 348 666 352 665 356 672 360 673 365 682 368 684 361 677 349 678 342 684 337 685 320 718 300 729 289 738 294 745 292 748 279 743 272 743 264 752 255 752 249 745 240 753 220 773 205 774 193 761 193 748 185 741 183 738 186 732 185 725 191 719 190 721 196 713 197 710 190 714 177 707 166 699 163 691 168 688 165 690 159 686 160 684 156Z","CE":"M793 197 791 208 798 214 799 229 794 236 798 254 804 259 804 280 810 280 814 288 809 298 820 298 823 295 836 297 845 308 850 302 856 301 853 297 854 294 850 292 849 287 853 284 866 283 864 277 857 279 853 272 861 263 869 260 873 248 885 238 877 238 870 227 841 204 835 204 823 194Z","PI":"M790 197 777 195 777 206 759 219 755 224 749 242 756 249 756 255 747 264 746 268 752 279 748 294 745 297 740 298 728 294 718 304 688 322 688 337 681 344 681 351 688 361 685 369 691 370 699 381 710 380 715 375 724 375 728 371 728 367 733 363 732 348 738 342 742 346 747 344 754 351 759 351 764 346 774 345 789 333 791 325 807 318 807 307 804 299 810 290 809 284 801 282 801 261 795 256 790 234 795 228 794 214 787 209Z","RN":"M857 272 858 275 862 273 867 275 875 267 879 269 885 264 894 265 894 272 889 274 886 279 888 279 890 283 898 281 900 285 904 284 902 277 910 272 913 272 916 276 921 272 931 276 939 274 937 258 932 252 924 249 916 251 903 250 898 246 892 246 888 241 876 249 871 263 863 266Z","TO":"M622 258 619 260 624 264 622 286 611 293 606 292 601 296 605 303 600 315 604 323 604 331 582 361 580 378 568 393 568 419 572 428 578 420 580 422 580 432 595 438 599 431 604 427 613 430 615 439 627 435 629 440 639 440 653 433 670 430 671 425 666 419 675 412 675 410 671 410 669 407 673 401 666 400 661 394 669 385 669 377 678 374 681 371 672 369 669 362 661 357 662 353 657 350 655 343 650 341 650 336 654 334 654 327 658 323 665 326 667 325 661 321 662 314 654 319 650 312 636 301 638 277 631 260Z","PB":"M853 288 853 290 859 292 857 295 860 300 859 303 865 308 873 300 879 301 882 295 897 296 898 301 896 304 893 304 894 307 889 313 894 314 899 319 903 318 903 313 915 306 923 308 922 304 926 301 936 301 936 294 944 290 941 278 929 279 922 276 917 280 912 276 906 278 908 286 905 288 898 289 896 285 887 287 886 282 883 282 882 279 888 270 891 270 891 268 886 267 879 273 875 272 869 278 869 285 865 288Z","PE":"M945 295 943 294 940 296 940 301 936 305 926 305 926 311 920 312 917 309 907 314 906 320 900 323 894 318 889 318 885 312 890 306 889 302 894 301 894 299 885 298 881 304 874 304 866 312 856 305 852 305 845 313 834 300 824 299 822 301 809 301 811 307 811 319 794 327 793 331 798 330 805 337 809 348 819 349 827 335 833 335 837 340 859 350 864 342 872 340 877 334 882 338 887 336 896 346 902 342 911 343 914 334 922 336 930 331 938 334 941 333 946 313Z","AC":"M4 310 26 338 28 348 23 354 24 359 38 357 49 371 69 365 70 357 84 346 89 351 83 361 87 378 94 384 102 377 122 378 134 388 140 389 143 381 153 372 172 373 185 367 184 365 93 322 44 318 8 306Z","MT":"M310 339 308 343 310 353 308 366 309 380 316 381 320 388 329 384 342 388 345 394 345 399 341 404 347 421 343 425 344 432 337 436 338 446 331 453 335 465 335 488 331 494 338 511 354 517 358 517 365 513 382 515 384 521 385 546 392 548 401 562 419 542 425 545 431 541 440 541 447 548 461 550 470 544 482 547 490 538 497 542 496 553 504 559 506 558 506 555 502 552 502 535 508 532 509 523 519 520 519 514 528 504 537 504 540 500 540 490 546 484 551 485 559 476 557 467 563 459 562 450 566 447 566 439 570 433 565 420 564 393 577 376 578 362 422 362 401 351 390 325 383 314 384 327 377 338Z","RO":"M259 317 248 327 246 340 230 346 231 356 227 361 220 362 215 368 215 385 224 406 239 418 258 418 263 425 272 424 279 434 289 436 296 444 314 445 328 451 334 445 333 435 340 431 339 425 343 420 338 406 342 397 340 391 328 388 319 392 314 384 308 384 306 382 304 372 307 358 304 347 306 338 302 334 289 333 277 328 272 316Z","BA":"M672 379 672 386 665 394 667 397 675 398 677 403 673 407 679 408 679 412 671 419 675 425 674 431 677 431 680 436 676 441 678 446 671 454 676 459 676 465 680 466 683 472 677 490 687 488 696 479 705 477 706 471 710 469 729 467 731 473 736 476 744 470 752 472 755 475 755 479 764 486 769 487 777 485 791 496 792 502 797 503 800 498 822 508 825 515 820 522 822 529 820 533 814 535 811 542 813 550 818 550 822 554 821 561 831 568 832 563 839 558 843 552 839 548 843 538 841 528 846 520 845 514 848 510 848 502 845 498 848 484 844 474 848 469 847 444 852 438 851 430 854 427 859 426 864 431 861 435 864 433 882 410 884 400 877 399 877 394 867 390 870 382 877 379 877 375 866 370 866 363 857 353 834 342 831 338 828 338 822 351 819 353 807 351 801 337 798 334 794 334 777 347 764 350 760 354 753 354 747 348 743 351 738 347 735 350 736 365 731 368 731 373 725 379 716 379 709 384 698 384 689 373 685 372 682 376Z","AL":"M938 337 930 335 922 340 916 338 914 346 902 346 896 351 886 340 881 342 877 339 874 343 866 345 863 350 869 349 885 353 892 363 900 363 909 371 910 375 915 370 915 366 925 358Z","SE":"M863 354 869 361 869 368 881 373 880 381 873 384 871 388 879 391 880 397 886 397 893 386 907 378 906 373 898 366 890 366 883 356 871 353Z","GO":"M675 434 655 436 638 444 627 443 625 439 614 443 609 431 603 431 597 441 594 442 579 436 576 429 570 439 570 447 565 452 566 461 561 467 563 477 552 488 548 487 544 491 544 500 539 507 529 508 523 514 523 522 513 525 512 533 505 537 506 551 510 554 510 559 506 562 507 565 511 564 516 570 516 575 526 577 536 585 546 585 554 593 566 594 575 583 604 577 614 568 632 572 642 566 643 561 641 555 647 551 647 549 638 547 638 539 647 536 648 530 642 522 651 511 627 512 625 510 624 498 628 496 628 491 630 489 645 488 655 493 655 506 657 504 655 499 657 493 653 489 658 483 664 486 661 479 667 474 677 481 679 471 673 467 673 460 668 455 669 449 674 445 671 440 676 437Z","MG":"M818 509 804 503 801 503 799 506 790 505 788 498 776 488 766 491 755 484 750 475 746 474 734 479 728 475 727 471 709 473 709 478 707 480 697 482 690 490 680 494 676 494 672 490 675 485 666 479 668 484 665 490 658 488 662 493 659 497 661 504 646 522 651 528 650 538 641 541 642 545 648 545 651 551 645 556 647 566 632 576 614 572 604 581 575 587 567 598 563 612 575 609 591 611 596 618 610 621 618 621 631 615 647 616 650 619 653 629 650 636 654 642 661 643 665 646 667 656 663 667 668 677 681 673 681 668 683 666 694 666 699 669 728 660 746 660 755 652 763 655 765 653 765 645 770 641 766 636 770 630 777 630 777 617 788 614 790 604 799 597 799 592 793 587 791 579 796 576 796 566 802 563 807 566 803 561 804 556 818 558 819 556 816 553 812 554 810 552 808 539 814 530 818 530 817 520 821 516Z","DF":"M627 500 629 509 651 508 652 495 646 492 632 493 632 497Z","MS":"M491 542 484 550 470 548 461 554 445 551 440 545 432 544 425 549 420 546 402 566 391 599 394 608 392 620 399 634 392 656 394 664 444 664 452 672 455 709 464 710 471 705 483 708 492 707 496 701 496 689 540 651 546 628 559 614 564 598 552 596 544 588 535 588 527 581 515 579 512 570 510 568 506 570 502 561 492 554 493 543Z","ES":"M810 560 807 561 812 566 808 570 803 567 799 568 800 577 795 580 796 585 802 590 803 598 793 606 793 612 790 617 781 619 781 632 788 639 795 639 800 644 812 628 816 607 823 600 827 601 832 594 830 571 818 562Z","SP":"M515 676 526 678 540 674 543 678 555 678 567 685 588 685 595 690 592 713 594 718 612 720 615 729 620 734 629 734 631 736 631 743 640 732 652 724 661 711 670 710 674 712 677 704 686 704 696 709 695 702 703 694 701 688 709 678 710 670 696 672 693 669 685 669 683 676 667 681 660 669 663 657 662 648 653 645 646 637 649 632 646 620 632 618 617 625 596 622 590 614 577 612 562 616 549 630 543 653Z","RJ":"M798 647 792 642 785 642 778 633 771 633 770 635 774 641 769 646 769 654 762 660 755 656 746 664 730 663 715 668 714 676 705 688 707 694 714 693 710 689 714 682 719 682 721 686 725 682 742 683 742 680 748 676 751 677 753 683 774 683 776 681 775 673 783 666 792 666 797 661Z","PR":"M480 726 479 751 493 755 500 772 505 774 516 772 521 778 546 784 552 783 551 777 566 765 585 765 592 770 603 763 615 766 615 760 619 755 617 749 621 745 626 748 629 746 626 744 628 738 621 739 612 731 610 723 595 722 591 720 589 716 591 691 586 688 568 689 553 681 542 682 539 678 525 682 511 679 500 690 500 700 492 711 487 711 485 713Z","SC":"M618 773 615 770 605 767 593 774 583 768 568 768 555 778 556 784 551 787 522 782 515 776 505 778 498 775 495 778 498 786 495 796 526 798 539 806 554 808 572 833 586 829 591 839 581 854 581 856 585 857 607 835 610 836 609 830 615 827 616 814 614 807 615 801 620 795 613 789 613 778Z","RS":"M491 800 461 814 443 831 430 854 410 869 408 874 422 878 440 901 455 898 484 928 493 929 506 946 501 968 503 975 522 955 527 927 552 888 566 886 567 895 559 911 541 926 540 929 567 908 583 862 582 859 577 858 576 856 587 840 585 833 571 837 552 811 538 809 524 801Z"},BRL={"RR":[302,63,36],"AP":[535,98,33],"PA":[501,260,99],"AM":[213,220,104],"MA":[692,251,53],"CE":[833,242,34],"PI":[776,299,29],"RN":[923,261,12],"TO":[623,377,42],"PB":[918,292,12],"PE":[855,327,18],"AC":[54,341,23],"MT":[453,452,90],"RO":[265,379,40],"BA":[786,415,67],"AL":[909,357,11],"SE":[891,376,10],"GO":[581,532,49],"MG":[723,555,73],"DF":[640,500,9],"MS":[466,611,58],"ES":[816,583,16],"SP":[619,662,37],"RJ":[782,654,13],"PR":[538,728,47],"SC":[585,801,28],"RS":[500,861,58]},BRB={"RR":[233,3,367,153],"AP":[469,24,580,157],"PA":[370,68,677,359],"AM":[9,77,429,366],"MA":[613,156,774,368],"CE":[791,194,885,308],"PI":[681,195,810,381],"RN":[857,241,939,285],"TO":[568,258,681,440],"PB":[853,267,944,319],"PE":[793,294,946,350],"AC":[4,306,185,389],"MT":[308,314,578,562],"RO":[215,316,343,451],"BA":[665,334,884,568],"AL":[863,335,938,375],"SE":[863,353,907,397],"GO":[505,429,679,594],"MG":[563,471,821,677],"DF":[627,492,652,509],"MS":[391,542,564,710],"ES":[781,560,832,644],"SP":[515,612,710,743],"RJ":[705,633,798,694],"PR":[479,678,629,784],"SC":[495,767,620,857],"RS":[408,800,587,975]};
+const mapB=(f,sel,path)=>{const us=Object.keys(BRP).sort((a,b)=>(a===sel)-(b===sel)),lbl=u=>{const t=f(u)||{},[x,y,r]=BRL[u],fs=Math.min(28,Math.max(12,r*.8)),col=t.tx||(t.bg?"#fff":"var(--ink)"),two=t.l2&&r>=22,op=t.dim?' opacity=".5"':"";
+ if(t.img){const s=Math.min(r*1.7,86);return `<image href="${t.img}" x="${x-s/2}" y="${y-s/2-(two?fs*.5:0)}" width="${s}" height="${s}" preserveAspectRatio="xMidYMid meet"${op}/>`+(two?`<text x="${x}" y="${y+s/2+fs*.2}" text-anchor="middle" dominant-baseline="central" style="font:600 ${fs*.72}px Inter,sans-serif;fill:${col}">${t.l2}</text>`:"")}
+ return `<text x="${x}" y="${y-(two?fs*.45:0)}" text-anchor="middle" dominant-baseline="central"${op} style="font:700 ${fs}px Inter,system-ui,sans-serif;fill:${col}">${t.l1==null?u:t.l1}</text>`+(two?`<text x="${x}" y="${y+fs*.65}" text-anchor="middle" dominant-baseline="central"${op} style="font:500 ${fs*.72}px Inter,sans-serif;fill:${col}">${t.l2}</text>`:"")};
+ return `<svg class="bmap" viewBox="0 0 950 980" role="group" aria-label="Mapa do Brasil por estado">${us.map(u=>{const t=f(u)||{};return `<path class="${sel===u?"on":""}${t.dim?" dim":""}${t.act?" act":""}" d="${BRP[u]}" style="fill:${t.bg||"var(--cardb)"}"${t.act?` data-do="set" data-arg="${path}" data-arg2="${u}" role="button" tabindex="0"`:""}><title>${UFS[u]}</title></path>`}).join("")}${Object.keys(BRP).map(lbl).join("")}</svg>`};
+const RB=us=>{let a=1e9,b=1e9,c=0,e=0;us.forEach(u=>{const q=BRB[u];a=Math.min(a,q[0]);b=Math.min(b,q[1]);c=Math.max(c,q[2]);e=Math.max(e,q[3])});return [a-8,b-8,c-a+16,e-b+16]};
+const sqR=r=>{const us=REG[r].split(" "),v=RB(us);return `<a class="sq reg" href="#regiao-${r}"><svg class="rsv" viewBox="${v.join(" ")}" aria-hidden="true">${us.map(u=>`<path d="${BRP[u]}"/>`).join("")}</svg><span>${r}</span></a>`};
+const regMap=r=>{const us=REG[r].split(" "),v=RB(us),k=Math.min(1,v[2]/600);return `<svg class="bmap" viewBox="${v.join(" ")}" role="group" aria-label="Mapa da região ${r}">${us.map(u=>`<a href="#estado-${u}"><path class="act" d="${BRP[u]}" style="fill:var(--acc)"><title>${UFS[u]}</title></path></a>`).join("")}${us.map(u=>{const[x,y,q]=BRL[u],fs=Math.min(30,Math.max(12,q*.8))*Math.max(.55,k);return `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" style="font:700 ${fs}px Inter,sans-serif;fill:#fff">${u}</text>`}).join("")}</svg>`};
+const pg3=(t,body)=>page("inicio",body,ina(t,"plus",[["Cronolist +","plus"],[t,null]]));
+const mY=(a,m)=>(m?String(m).padStart(2,"0")+"/":"")+a;
+const durTxt=(a,m,fa)=>{const n=new Date(),y2=fa?+fa:n.getFullYear(),m2=fa?12:n.getMonth()+1;let t=(y2-(+a))*12+(m2-(+m||1));if(t<0)t=0;const y=Math.floor(t/12),mm=t%12;return (y?y+(y>1?" anos":" ano"):"")+(y&&mm?" e ":"")+(mm?mm+(mm>1?" meses":" mês"):"")||"menos de 1 mês"};
+const sndList=l=>l.length?`<div class="lst c2">${l.map(s=>`<div class="card"><b>${s.modelo}</b> ${s.ano?`<span class="chip">${s.ano}</span>`:""}<p>${[linNome(s.lin),opNome(s.oper)].filter(Boolean).join(" · ")}</p>${s.desc?`<p>${s.desc}</p>`:""}${s.audio?`<audio controls preload="none" src="${ab(s.audio)}"></audio>`:`<p class="mut">Sem áudio.</p>`}</div>`).join("")}</div>`:`<p class="mut">Nenhum efeito sonoro cadastrado.</p>`;
+const linCard=l=>`<a class="card" href="#linha-${l.id}" style="border-left:4px solid ${l.cor||"var(--acc)"}"><h3>${l.nome}</h3><p>${l.sis||""} · desde ${mY(l.ano,l.mes)}${l.fim?" até "+l.fim:""}</p></a>`;
+
+function vPlus(){return page("inicio",`<div class="lst c3">${PLUS.map(([h,t,d])=>`<a class="card" href="#${h}"><h3>${t}</h3><p>${d}</p></a>`).join("")}</div>`,ina("Cronolist +","inicio",[["Cronolist +",null]]))}
+
+function vMidia(){const s=ST.md,m=MID.includes(s.m)?s.m:MID[0],cs=COMP.filter(c=>TRX.some(t=>t.comp===c.id&&t.midia===m)),cur=cs.find(c=>String(c.id)===String(s.c))||cs[0],l=cur?TRX.filter(t=>t.comp===cur.id&&t.midia===m).sort((a,b)=>b.ano-a.ano):[];
+ return pg3("Competição na Mídia",chs("md.m",MID.map(x=>[x,x]),m)+(cur?chs("md.c",cs.map(c=>[c.id,c.nome]),cur.id,1)+l.map(t=>`<div class="card" style="margin-bottom:10px"><span class="yr">${t.ano}</span>${(t.em||[]).length?`<div class="eg">${t.em.map(i=>E.find(e=>e.id===i)).filter(Boolean).map(e=>sq(e)).join("")}</div>`:""}${t.obs?`<p class="mut" style="margin:8px 0 0">${t.obs}</p>`:""}</div>`).join(""):emp("Nenhuma competição cadastrada para esta mídia.")))}
+
+function vEleicoes(){const s=ST.el,T=[["d","Datas"],["Presidente","Presidente"],["Governador","Governadores"],["Prefeito","Prefeituras"]],t=T.some(x=>x[0]===s.t)?s.t:"d";let b="";
+ if(t==="d"){const l=[...ELE].sort((a,b)=>b.ano-a.ano);b=l.length?`<div class="tl">${l.map(e=>{const pv=ELE.filter(x=>x.tipo===e.tipo&&+x.ano<+e.ano).sort((a,b)=>b.ano-a.ano)[0];return `<div><b class="yr">${e.ano}</b> <span class="chip">${e.tipo}</span><p class="mut" style="margin:4px 0 0">${[e.d1?"1º turno: "+shortD(e.d1):"",e.d2?"2º turno: "+shortD(e.d2):"",pv?(e.ano-pv.ano)+" anos após "+pv.ano:""].filter(Boolean).join(" · ")}</p>${e.desc?`<p style="margin:4px 0 0">${e.desc}</p>`:""}</div>`}).join("")}</div>`:emp("Nenhuma eleição cadastrada.")}
+ else{const R2=ERES.filter(r=>r.tipo===t),ys=yrsOf(t==="Prefeito"?[...R2,...PRK]:R2);
+  if(!ys.length)b=emp("Nenhum resultado cadastrado.");
+  else{const all=t==="Prefeito"&&s.y==="all",y=all?ys[0]:pickY(ys,s.y),rs=R2.filter(r=>String(r.ano)===String(y)),by=u=>rs.find(r=>r.uf===u),sel=by(s.u)?s.u:null,nat=rs.find(r=>r.uf==="BR"),cnt={};
+   rs.filter(r=>r.uf!=="BR").forEach(r=>cnt[r.partido]=(cnt[r.partido]||0)+1);
+   b=chs("el.y",[...ys.map(x=>[x,x]),...(t==="Prefeito"?[["all","Todos os anos"]]:[])],all?"all":y)
+    +(nat?`<div class="card"><p class="mut" style="margin:0">Resultado nacional ${y}</p><b>${nat.nome||""}</b> <span class="chip">${nat.partido}</span></div>`:"")
+    +mapB(u=>{const r=by(u);return r?{bg:pcor(r.partido),l1:u,l2:r.partido,act:true}:{}},sel,"el.u")
+    +(sel?`<div class="card"><b>${UFS[sel]}</b><p style="margin:4px 0 0">${by(sel).nome||""} <span class="chip">${by(sel).partido}</span></p>${by(sel).obs?`<p class="mut" style="margin:4px 0 0">${by(sel).obs}</p>`:""}</div>`:`<p class="mut c">Toque em um estado para ver os detalhes.</p>`)
+    +(t!=="Prefeito"&&Object.keys(cnt).length?`<div class="sh"><h2>Estados por partido</h2></div>`+Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(([p,n])=>`<div class="rk2"><span>${p}</span><div class="bar"><i style="--p:${Math.round(n/Math.max(...Object.values(cnt))*100)}%;background:${pcor(p)}"></i></div><b>${n}</b></div>`).join(""):"");
+   if(t==="Prefeito"){const g={};PRK.filter(r=>all||String(r.ano)===String(y)).forEach(r=>g[r.partido]=(g[r.partido]||0)+(+r.qtd||0));const rk=Object.entries(g).sort((a,b)=>b[1]-a[1]),mx=rk.length?rk[0][1]:1;
+    b+=`<div class="sh"><h2>Prefeituras por partido <small>· ${all?"todos os anos":y}</small></h2></div>`+(rk.length?rk.map(([p,n],i)=>`<div class="rk2"><span>${i+1}. ${p}</span><div class="bar"><i style="--p:${Math.round(n/mx*100)}%;background:${pcor(p)}"></i></div><b>${n}</b></div>`).join(""):emp("Nenhum dado de prefeituras por partido."))}}}
+ return pg3("Eleições",chs("el.t",T,t)+b)}
+
+function vTrens(){const s=ST.tr,tab=["l","e","o"].includes(s.t)?s.t:"l";let b="";
+ if(tab==="l"){const ufs=[...new Set(LIN.map(l=>l.uf))],u=ufs.includes(s.u)?s.u:ufs[0];
+  b=!LIN.length?emp("Nenhuma linha cadastrada."):mapB(x=>ufs.includes(x)?{bg:x===u?"var(--acc)":"var(--accw)",tx:x===u?"#fff":"var(--acc)",l1:x,l2:String(LIN.filter(l=>l.uf===x).length),act:true}:{dim:1},u,"tr.u")+`<div class="sh"><h2>${UFS[u]}</h2></div>`+SIS.map(sis=>{const l=LIN.filter(x=>x.uf===u&&(x.sis||"Outro")===sis).sort((a,b)=>a.nome.localeCompare(b.nome));return l.length?`<p class="mut" style="margin:14px 0 6px;font-weight:700">${sis}</p><div class="lst c3">${l.map(linCard).join("")}</div>`:""}).join("")}
+ else if(tab==="e"){const ys=[...new Set([...LIN.map(l=>l.ano),...EST.map(x=>x.ano),...LOP.map(x=>x.ano)].filter(Boolean))].sort((a,b)=>b-a);
+  if(!ys.length)b=emp("Nenhum dado de evolução cadastrado.");
+  else{const y=pickY(ys,s.y),Y=String(y),ex=n=>LIN.filter(l=>+l.ano<=n&&(!l.fim||+l.fim>=n)).length,nl=LIN.filter(l=>String(l.ano)===Y),ne=EST.filter(x=>String(x.ano)===Y).sort((a,b)=>(a.mes||0)-(b.mes||0)),no=LOP.filter(x=>String(x.ano)===Y),go={};
+   no.forEach(x=>(go[x.oper]=go[x.oper]||[]).push(linNome(x.lin)));
+   b=chs("tr.y",ys.map(x=>[x,x]),y)+`<div class="card"><b class="yr">${ex(+y)}</b> linha${ex(+y)!==1?"s":""} em ${y} <span class="mut">· ${ex(+y-1)} em ${+y-1}</span></div>`
+    +`<div class="sh"><h2>Novas linhas em ${y}</h2></div>`+(nl.length?`<div class="lst c3">${nl.map(linCard).join("")}</div>`:`<p class="mut">Nenhuma linha nova.</p>`)
+    +`<div class="sh"><h2>Estações inauguradas em ${y}</h2></div>`+(ne.length?`<div class="tl">${ne.map(x=>`<div><b>${x.nome}</b> <span class="chip">${mY(x.ano,x.mes)}</span><p class="mut" style="margin:2px 0 0">${linNome(x.lin)}</p>${x.desc?`<p style="margin:2px 0 0">${x.desc}</p>`:""}</div>`).join("")}</div>`:`<p class="mut">Nenhuma estação inaugurada.</p>`)
+    +`<div class="sh"><h2>Operadoras que passaram a operar em ${y}</h2></div>`+(Object.keys(go).length?Object.entries(go).map(([o,ls])=>`<a class="card" href="#oper-${o}" style="margin-bottom:8px"><b>${opNome(+o)}</b><p>${ls.join(", ")}</p></a>`).join(""):`<p class="mut">Nenhuma mudança de operadora.</p>`)}}
+ else b=OPER.length?`<div class="eg">${[...OPER].sort((a,c)=>a.nome.localeCompare(c.nome)).map(o=>`<a class="sq" href="#oper-${o.id}">${o.logo?`<img class="lgi" src="${ab(o.logo)}" alt="">`:`<i class="bd" style="--c:${o.cor||"#475569"};font-size:11px">${o.nome.slice(0,8)}</i>`}<span>${o.nome}</span></a>`).join("")}</div>`:emp("Nenhuma operadora cadastrada.");
+ return pg3("Trens e Metrô",chs("tr.t",[["l","Linhas"],["e","Evolução"],["o","Operadoras"]],tab)+b)}
+
+function vLinha(id){const l=LIN.find(x=>x.id===id);if(!l)return vTrens();const es=EST.filter(x=>x.lin===id).sort((a,b)=>a.ano-b.ano||(a.mes||0)-(b.mes||0)),ops=LOP.filter(x=>x.lin===id).sort((a,b)=>a.ano-b.ano),oids=ops.map(x=>x.oper);
+ return page("inicio",`<div class="card mt" style="border-left:5px solid ${l.cor||"var(--acc)"}"><h2 style="margin:0 0 4px">${l.nome}</h2><p class="mut" style="margin:0">${UFS[l.uf]||l.uf} · ${l.sis||""} · inaugurada em ${mY(l.ano,l.mes)}</p><p style="margin:8px 0 0"><b>${durTxt(l.ano,l.mes,l.fim)}</b> ${l.fim?"de operação (até "+l.fim+")":"em operação"}</p>${l.desc?`<p class="mut">${l.desc}</p>`:""}</div>
+ <div class="sh"><h2>Estações <small>· ${es.length}</small></h2></div>${es.length?`<div class="tl">${es.map(x=>`<div><b>${x.nome}</b> <span class="chip">${mY(x.ano,x.mes)}</span>${x.desc?`<p class="mut" style="margin:2px 0 0">${x.desc}</p>`:""}</div>`).join("")}</div>`:`<p class="mut">Nenhuma estação cadastrada.</p>`}
+ <div class="sh"><h2>Operadoras ao longo do tempo</h2></div>${ops.length?`<div class="tl">${ops.map(x=>`<div><a href="#oper-${x.oper}"><b>${opNome(x.oper)}</b></a> <span class="chip">${mY(x.ano,x.mes)}${x.fim?" – "+x.fim:" – hoje"}</span></div>`).join("")}</div>`:`<p class="mut">Nenhuma operadora cadastrada.</p>`}
+ <div class="sh"><h2>Efeitos sonoros</h2></div>${sndList(SOM.filter(x=>x.lin===id||oids.includes(x.oper)))}`,ina(l.nome,"trens",[["Cronolist +","plus"],["Trens e Metrô","trens"],[l.nome,null]]))}
+function vOper(id){const o=OPER.find(x=>x.id===id);if(!o)return vTrens();const ops=LOP.filter(x=>x.oper===id).sort((a,b)=>a.ano-b.ano);
+ return page("inicio",`<div class="card hero">${o.logo?`<img class="lgi" src="${ab(o.logo)}" alt="">`:`<i class="bd" style="--c:${o.cor||"#475569"};font-size:14px">${o.nome.slice(0,8)}</i>`}<div><h2>${o.nome}</h2><p class="mut">${ops.length} linha${ops.length!==1?"s":""} no histórico</p></div></div>
+ <div class="sh"><h2>Linhas operadas</h2></div>${ops.length?`<div class="tl">${ops.map(x=>`<div><a href="#linha-${x.lin}"><b>${linNome(x.lin)}</b></a> <span class="chip">${mY(x.ano,x.mes)}${x.fim?" – "+x.fim:" – hoje"}</span></div>`).join("")}</div>`:`<p class="mut">Nenhuma linha cadastrada.</p>`}
+ <div class="sh"><h2>Efeitos sonoros</h2></div>${sndList(SOM.filter(x=>x.oper===id))}`,ina(o.nome,"trens",[["Cronolist +","plus"],["Trens e Metrô","trens"],[o.nome,null]]))}
+
+function vIneditos(){const s=ST.ine,c=CMPS.includes(s.c)?s.c:CMPS[0],p=["Brasil","Internacional"].includes(s.p)?s.p:"Brasil",l=PIN.filter(x=>x.cmp===c&&x.parte===p),ys=yrsOf(l);
+ return pg3("Participantes inéditos",chs("ine.c",CMPS.map(x=>[x,x]),c)+chs("ine.p",[["Brasil","Brasil"],["Internacional","Internacional"]],p)+(ys.length?ys.map(y=>{const cl=l.filter(x=>String(x.ano)===String(y));return `<div class="card" style="margin-bottom:10px"><span class="yr">${y}</span> <span class="mut">${cl.length} inédito${cl.length!==1?"s":""}</span><div class="eg">${cl.map(x=>`<div class="sq">${x.logo?`<img class="lgi" src="${ab(x.logo)}" alt="">`:`<i class="bd" style="--c:#475569;font-size:11px">${x.clube.slice(0,6)}</i>`}<span>${x.clube}${x.pais?" · "+x.pais:""}</span></div>`).join("")}</div></div>`}).join(""):emp("Nenhum participante inédito cadastrado.")))}
+
+function vEvp(){const g={};PEVO.forEach(p=>(g[p.num]=g[p.num]||[]).push(p));const ns=Object.keys(g).sort((a,b)=>a-b);
+ return pg3("Evolução de partidos",ns.length?`<div class="lst c2">${ns.map(n=>{const l=g[n].sort((a,b)=>a.ano-b.ano),nm=[...new Set(l.map(p=>p.sigla))].join(", ");return `<a class="card" href="#pnum-${n}" style="border-left:4px solid ${pcor(l[0].sigla)}"><h3 style="font-size:20px">${n} <span class="mut">|</span> ${nm}</h3><p>${l.length} registro${l.length!==1?"s":""} de evolução</p></a>`}).join("")}</div>`:emp("Nenhum partido cadastrado."))}
+function vPnum(n){const l=PEVO.filter(p=>String(p.num)===String(n)).sort((a,b)=>a.ano-b.ano);if(!l.length)return vEvp();
+ return page("inicio",`<div class="card mt" style="border-left:5px solid ${pcor(l[0].sigla)}"><h2 style="margin:0">${n} <span class="mut">|</span> ${[...new Set(l.map(p=>p.sigla))].join(" → ")}</h2></div><div class="tl mt">${l.map(p=>`<div><span class="yr">${p.ano}</span> <span class="chip" style="background:${p.cor||"var(--accw)"};color:#fff">${p.sigla}</span>${p.logo?` <img src="${ab(p.logo)}" alt="" style="height:28px;vertical-align:middle">`:""}${p.nome?`<p style="margin:4px 0 0"><b>${p.nome}</b></p>`:""}${p.desc?`<p class="mut" style="margin:4px 0 0">${p.desc}</p>`:""}</div>`).join("")}</div>`,ina("Partido "+n,"evpartidos",[["Cronolist +","plus"],["Evolução de partidos","evpartidos"],[String(n),null]]))}
+
+function vEstaduais(){const s=ST.es,ys=yrsOf(ETX);if(!ys.length)return pg3("Estaduais na TV",emp("Nenhuma transmissão cadastrada."));
+ const y=pickY(ys,s.y),g=["Masculino","Feminino"].includes(s.g)?s.g:"Masculino",n=["Profissional","Sub"].includes(s.n)?s.n:"Profissional",d=DIVS.includes(s.d)?s.d:DIVS[0],
+ l=ETX.filter(x=>String(x.ano)===String(y)&&x.gen===g&&x.niv===n&&x.div===d),eOf=i=>E.find(e=>e.id===i),by=u=>l.filter(x=>x.uf===u),rk={};
+ l.forEach(x=>(rk[x.em]=rk[x.em]||[]).push(x.uf));
+ const rows=Object.entries(rk).map(([i,u])=>({e:eOf(+i),u:[...new Set(u)].sort()})).filter(r=>r.e).sort((a,b)=>b.u.length-a.u.length||a.e.nome.localeCompare(b.e.nome));
+ return pg3("Estaduais na TV",chs("es.y",ys.map(x=>[x,x]),y)+chs("es.g",[["Masculino","Masc"],["Feminino","Fem"]],g)+chs("es.n",[["Profissional","Prof"],["Sub","Sub"]],n)+chs("es.d",DIVS.map(x=>[x,x]),d)
+  +mapB(u=>{const a=by(u);if(!a.length)return{};const e=eOf(a[0].em);return e?{bg:e.cor||"#475569",img:e.logo?ab(e.logo):null,l1:e.logo?null:(e.sig||e.nome.slice(0,6)),l2:u+(a.length>1?" +"+(a.length-1):"")}:{}},null)
+  +`<div class="sh"><h2>Emissoras <small>· ${d}</small></h2></div>`+(rows.length?rows.map(r=>`<div class="card al" style="margin-bottom:8px"><span class="th">${badge(r.e)}</span><div style="flex:1"><b>${r.e.nome}</b>: ${r.u.length} - ${r.u.join("/")}</div></div>`).join(""):emp("Nenhuma emissora para este filtro.")))}
+
+// ===== Pede Aqui =====
+const PED=[];Object.assign(ARR,{PED});Object.assign(COLS,{PED:"pedidos"});Object.assign(ST,{pd:{}});
+Object.assign(SCH,{PED:["Pedido (Pede Aqui)",[["usuario","Nome do usuário","text"],["cron","Cronologia pedida","text"],["data","Data do pedido","date"],["st","Situação","sel",()=>[["Pendente","Pendente"],["Realizado","Realizado"]]],["dfeito","Data de realização (se realizado)","date"],["obs","Observação","area"]],x=>x.cron+" · "+x.usuario+" · "+shortD(x.data)]});
+Object.assign(REQ,{PED:["usuario","cron","data"]});
+Object.assign(INP,{pedq:el=>{ST.q=el.value;drawPede()}});
+const dias=(a,b)=>Math.round((Date.parse(b)-Date.parse(a))/864e5);
+function drawPede(){const f=ST.pd.f||"t",q=(ST.q||"").toLowerCase(),done=x=>x.st==="Realizado",all=[...PED].sort((a,b)=>String(b.data).localeCompare(String(a.data))||b.id-a.id),
+ l=all.filter(x=>(f==="t"||(f==="r")===done(x))&&(!q||(x.cron+" "+x.usuario).toLowerCase().includes(q)));
+ $("#rpd").innerHTML=l.length?`<div class="lst">${l.map(x=>`<div class="card pd"><div style="flex:1;min-width:0"><b style="overflow-wrap:anywhere">${x.cron}</b><p class="mut" style="margin:4px 0 0">Pedido por <b>${x.usuario}</b> em ${shortD(x.data)}</p>${x.obs?`<p class="mut" style="margin:4px 0 0">${x.obs}</p>`:""}</div><div class="pst">${done(x)?`<span class="pill ok">Realizado</span><small class="mut">${shortD(x.dfeito)}${x.dfeito&&dias(x.data,x.dfeito)>=0?` · em ${dias(x.data,x.dfeito)} dia${dias(x.data,x.dfeito)!==1?"s":""}`:""}</small>`:`<span class="pill wa">Pendente</span>`}</div></div>`).join("")}</div>`:`<div class="empty mt">${q||f!=="t"?"Nenhum pedido encontrado.":EMP()}</div>`}
+function vPede(){const f=ST.pd.f||"t",n=PED.length,r=PED.filter(x=>x.st==="Realizado").length,p=n?Math.round(r/n*100):0;
+ return page("inicio",`<div class="pc"><p>Cronologias pedidas ao canal</p><div class="pr"><div class="bar"><i style="--p:${p}%"></i></div><b>${p}%</b></div><span class="mut">${n} pedido${n!==1?"s":""} · ${r} realizado${r!==1?"s":""} · ${n-r} pendente${n-r!==1?"s":""}</span></div>
+ ${chs("pd.f",[["t","Todos"],["p","Pendentes"],["r","Realizados"]],f)}<input placeholder="Pesquisar por usuário ou cronologia..." value="${ST.q||""}" data-in="pedq"><div id="rpd"></div>`,ina("Pede Aqui","inicio",[["Pede Aqui",null]]))}
+
+// ===== Modo hospedado (GitHub Pages): dados e imagens ficam no próprio repositório =====
+let GH={ok:false,t:"",o:"",r:"",b:"main"},STORE={},SUBS={},LOADERR=false,PREV={},CT,CQ=Promise.resolve();
+const ab=v=>!v?"":PREV[v]||(/^(data:|https?:|\/)/.test(v)?v:(CLAUDE?"/_blob/"+v:"uploads/"+v));
+const GHU=p=>`https://api.github.com/repos/${GH.o}/${GH.r}/contents/${p.split("/").map(encodeURIComponent).join("/")}`;
+const ghReq=(u,o={})=>fetch(u,{...o,headers:{Accept:"application/vnd.github+json",...(GH.t?{Authorization:"Bearer "+GH.t}:{}),...(o.headers||{})}});
+const b64=buf=>{let o="";for(let i=0;i<buf.length;i+=32768)o+=String.fromCharCode.apply(null,buf.subarray(i,i+32768));return btoa(o)};
+function ghCfg(){const c=window.CRONOLIST||{},l=location,m=(l.hostname||"").match(/^([^.]+)\.github\.io$/);return{o:c.owner||(m?m[1]:""),r:c.repo||(m?(l.pathname.split("/")[1]||m[1]+".github.io"):""),b:c.branch||"main"}}
+async function ghPut(path,content,msg){const u=GHU(path);let sha;const g=await ghReq(u+"?ref="+encodeURIComponent(GH.b));if(g.ok)sha=(await g.json()).sha;else if(g.status!==404)throw new Error("GitHub "+g.status);
+ const r=await ghReq(u,{method:"PUT",body:JSON.stringify({message:msg,content,branch:GH.b,...(sha?{sha}:{})})});if(!r.ok){let m="";try{m=(await r.json()).message}catch(e){}throw new Error(m||"GitHub "+r.status)}return r.json()}
+async function ghUpload(blob,fname){const T={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","image/gif":"gif","image/svg+xml":"svg","audio/mpeg":"mp3","audio/mp4":"m4a","audio/ogg":"ogg","audio/wav":"wav","audio/webm":"webm"},
+ ext=((fname||"").split(".").pop()||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,5)||T[blob.type]||"bin",name=Date.now().toString(36)+Math.random().toString(36).slice(2,6)+"."+ext,buf=new Uint8Array(await blob.arrayBuffer());
+ const enc=b64(buf);PREV[name]="data:"+(blob.type||"application/octet-stream")+";base64,"+enc;
+ await ghPut("uploads/"+name,enc,"Envia arquivo");return{id:name,url:PREV[name]}}
+function sched(){clearTimeout(CT);CT=setTimeout(commit,900);toast("Publicando…")}
+function commit(){const body=b64(new TextEncoder().encode(JSON.stringify(STORE)));CQ=CQ.then(()=>ghPut("data/db.json",body,"Atualiza dados do Cronolist")).then(()=>toast("Publicado. Aparece no site em cerca de 1 minuto.")).catch(e=>toast("Falha ao publicar: "+(e.message||"erro")))}
+function gdb(){const snap=n=>({docs:Object.entries(STORE[n]||{}).map(([id,o])=>({id,data:()=>o}))}),notify=n=>(SUBS[n]||[]).forEach(f=>f(snap(n)));
+ return{collection:n=>({onSnapshot(f){(SUBS[n]=SUBS[n]||[]).push(f);setTimeout(()=>f(snap(n)),0);return()=>{}},
+  doc:id=>({async set(o){(STORE[n]=STORE[n]||{})[id]=o;notify(n);sched()},async update(q){const c=(STORE[n]||{})[id];if(!c)throw new Error("not-found");STORE[n][id]={...c,...q};notify(n);sched()},async delete(){if(STORE[n])delete STORE[n][id];notify(n);sched()}})})}}
+async function standaloneDb(){const c=ghCfg();GH.o=c.o;GH.r=c.r;GH.b=c.b;try{GH.t=localStorage.getItem("cl_gh")||""}catch(e){}
+ if(GH.t&&GH.o&&GH.r){try{const r=await ghReq(`https://api.github.com/repos/${GH.o}/${GH.r}`);if(r.ok){const j=await r.json();GH.ok=!!(j.permissions&&j.permissions.push)}else if(r.status===401){GH.t="";try{localStorage.removeItem("cl_gh")}catch(e){}}}catch(e){}}
+ let txt=null;
+ if(GH.ok){try{const r=await ghReq(GHU("data/db.json")+"?ref="+encodeURIComponent(GH.b),{headers:{Accept:"application/vnd.github.raw+json"}});if(r.ok)txt=await r.text();else if(r.status===404)txt="{}"}catch(e){}}
+ if(txt==null){try{const r=await fetch("data/db.json",{cache:"no-cache"});if(r.ok)txt=await r.text()}catch(e){}}
+ if(txt==null){LOADERR=true;txt="{}"}
+ try{STORE=JSON.parse(txt)||{}}catch(e){STORE={};LOADERR=true}
+ return gdb()}
+const loginCard=()=>`<div class="card mt"><h3 style="margin:0 0 6px">Entrar como administrador</h3>${GH.o&&GH.r?`<p class="mut" style="margin:0 0 10px">Cole o token de acesso do GitHub com permissão de escrita no repositório <b>${GH.o}/${GH.r}</b>. Ele fica salvo só neste navegador.</p><input type="password" id="ghtok" placeholder="github_pat_..." autocomplete="off"><p class="err" id="lerr"></p><div class="ma"><button class="btn p" data-do="login">Entrar</button></div>`:`<p class="mut" style="margin:0">Repositório não configurado. Edite o arquivo <b>config.js</b> com o usuário e o nome do repositório do GitHub.</p>`}</div>`;
+async function ghLogin(){const t=($("#ghtok").value||"").trim(),e=$("#lerr");if(!t){e.textContent="Cole o token.";return}GH.t=t;e.textContent="Verificando…";
+ try{const r=await ghReq(`https://api.github.com/repos/${GH.o}/${GH.r}`);if(!r.ok){GH.t="";e.textContent=r.status===401?"Token inválido ou expirado.":r.status===404?"Repositório não encontrado ou token sem acesso a ele.":"Erro do GitHub ("+r.status+").";return}
+  const j=await r.json();if(!(j.permissions&&j.permissions.push)){GH.t="";e.textContent="Este token não tem permissão de escrita no repositório.";return}
+  try{localStorage.setItem("cl_gh",t)}catch(x){}location.reload()}catch(x){GH.t="";e.textContent="Não foi possível conectar ao GitHub."}}
+Object.assign(ACT,{login:()=>ghLogin(),logout:()=>{try{localStorage.removeItem("cl_gh")}catch(e){}location.reload()}});
+document.addEventListener("keydown",e=>{const t=e.target;if((e.key==="Enter"||e.key===" ")&&t&&t.matches&&t.matches('[role="button"][data-do]')){e.preventDefault();t.dispatchEvent(new Event("click",{bubbles:true}))}});
+const R={inicio:vHome,lista:vLista,emissora:b=>vEmissora(+b),regiao:vRegiao,estado:vEstado,pais:b=>vPais(+b),cronologias:vCron,pracas:vPracas,prem:b=>vPrem(+b),pf:b=>vPf(+b),jn:b=>vJn(+b),esportes:vEsportes,mod:b=>vMod(+b),comp:b=>vComp(+b),programacao:vProg,mais:vMais,pede:vPede,plus:vPlus,midia:vMidia,eleicoes:vEleicoes,trens:vTrens,linha:b=>vLinha(+b),oper:b=>vOper(+b),ineditos:vIneditos,evpartidos:vEvp,pnum:b=>vPnum(b),estaduais:vEstaduais,admin:vAdmin,lancamentos:vLanc,busca:vBusca};
+function draw(keep){const h=location.hash.slice(1)||"inicio",i=h.indexOf("-"),a=i<0?h:h.slice(0,i),b=i<0?"":h.slice(i+1),y=scrollY;
+ if(a==="emissora"&&!keep&&!draw.k)hit(+b);
+ $("#app").innerHTML=(R[a]||vHome)(b);
+ if($("#res"))drawList(b);if($("#rc"))drawCron();if($("#rp"))drawPracas();if($("#rb"))drawBusca();if($("#ra"))drawAdmin();if($("#rpd"))drawPede();{const t=document.querySelector("main h1");document.title=(t?t.textContent+" · ":"")+"Cronolist"}
+ scrollTo(0,keep?y:0)}
+try{const t=localStorage.getItem("cl_th");if(t&&t!=="auto"){ST.th=t;document.documentElement.dataset.theme=t}}catch(e){}
+addEventListener("hashchange",()=>{ST.q="";draw()});draw();initDb();
+if(!CLAUDE&&"serviceWorker" in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(()=>{});
+(()=>{const n=$("#intro");if(!n)return;let seen=false;try{seen=!!sessionStorage.getItem("cl_i");sessionStorage.setItem("cl_i","1")}catch(e){}
+ const rm=()=>n.remove();if(seen||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches))return rm();n.addEventListener("click",rm);setTimeout(rm,3300)})();
+</script>
+</body>
+</html>
