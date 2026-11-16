@@ -789,4 +789,60 @@ document.addEventListener("keydown",e=>{
     t.dispatchEvent(new Event("click",{bubbles:true}));
   }
 });
- 
+
+ const R={inicio:vHome,lista:vLista,emissora:b=>vEmissora(+b),regiao:vRegiao,estado:vEstado,pais:b=>vPais(+b),cronologias:vCron,pracas:vPracas,prem:b=>vPrem(+b),pf:b=>vPf(+b),jn:b=>vJn(+b),esportes:vEsportes,mod:b=>vMod(+b),comp:b=>vComp(+b),programacao:vProg,mais:vMais,entrar:vAdmin,pede:vPede,plus:vPlus,midia:vMidia,eleicoes:vEleicoes,trens:vTrens,linha:b=>vLinha(+b),oper:b=>vOper(+b),ineditos:vIneditos,evpartidos:vEvp,pnum:b=>vPnum(b),estaduais:vEstaduais,admin:vAdmin,lancamentos:vLanc,busca:vBusca};
+
+function draw(keep){
+ const h=location.hash.slice(1)||"inicio",i=h.indexOf("-"),a=i<0?h:h.slice(0,i),b=i<0?"":h.slice(i+1),y=scrollY;
+ if(a==="emissora"&&!keep&&!draw.k)hit(+b);
+ $("#app").innerHTML=(R[a]||vHome)(b);
+ if($("#res"))drawList(b);
+ if($("#rc"))drawCron();
+ if($("#rp"))drawPracas();
+ if($("#rb"))drawBusca();
+ if($("#ra"))drawAdmin();
+ if($("#rpd"))drawPede();
+ {
+  const t=document.querySelector("main h1");
+  document.title=(t?t.textContent+" · ":"")+"Cronolist";
+ }
+ scrollTo(0,keep?y:0);
+}
+
+try{
+ const t=localStorage.getItem("cl_th");
+ if(t&&t!=="auto"){
+  ST.th=t;
+  document.documentElement.dataset.theme=t;
+ }
+}catch(e){}
+
+addEventListener("hashchange",()=>{
+ ST.q="";
+ draw();
+});
+
+draw();
+initDb();
+
+if(!CLAUDE&&"serviceWorker" in navigator&&/^https?:/.test(location.protocol)){
+ navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+
+(()=>{
+ const n=$("#intro");
+ if(!n)return;
+ let seen=false;
+ try{
+  seen=!!sessionStorage.getItem("cl_i");
+  sessionStorage.setItem("cl_i","1");
+ }catch(e){}
+ const rm=()=>n.remove();
+ if(seen||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches))return rm();
+ n.addEventListener("click",rm);
+ setTimeout(rm,3300);
+})();
+
+</script>
+</body>
+</html>
