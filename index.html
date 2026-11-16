@@ -485,48 +485,308 @@ function vPede(){const f=ST.pd.f||"t",n=PED.length,r=PED.filter(x=>x.st==="Reali
 
 // ===== Modo hospedado (GitHub Pages): dados e imagens ficam no próprio repositório =====
 let GH={ok:false,t:"",o:"",r:"",b:"main"},STORE={},SUBS={},LOADERR=false,PREV={},CT,CQ=Promise.resolve();
+
 const ab=v=>!v?"":PREV[v]||(/^(data:|https?:|\/)/.test(v)?v:(CLAUDE?"/_blob/"+v:"uploads/"+v));
+
 const GHU=p=>`https://api.github.com/repos/${GH.o}/${GH.r}/contents/${p.split("/").map(encodeURIComponent).join("/")}`;
-const ghReq=(u,o={})=>fetch(u,{...o,headers:{Accept:"application/vnd.github+json",...(GH.t?{Authorization:"Bearer "+GH.t}:{}),...(o.headers||{})}});
-const b64=buf=>{let o="";for(let i=0;i<buf.length;i+=32768)o+=String.fromCharCode.apply(null,buf.subarray(i,i+32768));return btoa(o)};
-function ghCfg(){const c=window.CRONOLIST||{},l=location,m=(l.hostname||"").match(/^([^.]+)\.github\.io$/);return{o:c.owner||(m?m[1]:""),r:c.repo||(m?(l.pathname.split("/")[1]||m[1]+".github.io"):""),b:c.branch||"main"}}
-async function ghPut(path,content,msg){const u=GHU(path);let sha;const g=await ghReq(u+"?ref="+encodeURIComponent(GH.b));if(g.ok)sha=(await g.json()).sha;else if(g.status!==404)throw new Error("GitHub "+g.status);
- const r=await ghReq(u,{method:"PUT",body:JSON.stringify({message:msg,content,branch:GH.b,...(sha?{sha}:{})})});if(!r.ok){let m="";try{m=(await r.json()).message}catch(e){}throw new Error(m||"GitHub "+r.status)}return r.json()}
-async function ghUpload(blob,fname){const T={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","image/gif":"gif","image/svg+xml":"svg","audio/mpeg":"mp3","audio/mp4":"m4a","audio/ogg":"ogg","audio/wav":"wav","audio/webm":"webm"},
- ext=((fname||"").split(".").pop()||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,5)||T[blob.type]||"bin",name=Date.now().toString(36)+Math.random().toString(36).slice(2,6)+"."+ext,buf=new Uint8Array(await blob.arrayBuffer());
- const enc=b64(buf);PREV[name]="data:"+(blob.type||"application/octet-stream")+";base64,"+enc;
- await ghPut("uploads/"+name,enc,"Envia arquivo");return{id:name,url:PREV[name]}}
-function sched(){clearTimeout(CT);CT=setTimeout(commit,900);toast("Publicando…")}
-function commit(){const body=b64(new TextEncoder().encode(JSON.stringify(STORE)));CQ=CQ.then(()=>ghPut("data/db.json",body,"Atualiza dados do Cronolist")).then(()=>toast("Publicado. Aparece no site em cerca de 1 minuto.")).catch(e=>toast("Falha ao publicar: "+(e.message||"erro")))}
-function gdb(){const snap=n=>({docs:Object.entries(STORE[n]||{}).map(([id,o])=>({id,data:()=>o}))}),notify=n=>(SUBS[n]||[]).forEach(f=>f(snap(n)));
- return{collection:n=>({onSnapshot(f){(SUBS[n]=SUBS[n]||[]).push(f);setTimeout(()=>f(snap(n)),0);return()=>{}},
-  doc:id=>({async set(o){(STORE[n]=STORE[n]||{})[id]=o;notify(n);sched()},async update(q){const c=(STORE[n]||{})[id];if(!c)throw new Error("not-found");STORE[n][id]={...c,...q};notify(n);sched()},async delete(){if(STORE[n])delete STORE[n][id];notify(n);sched()}})})}}
-async function standaloneDb(){const c=ghCfg();GH.o=c.o;GH.r=c.r;GH.b=c.b;try{GH.t=localStorage.getItem("cl_gh")||""}catch(e){}
- if(GH.t&&GH.o&&GH.r){try{const r=await ghReq(`https://api.github.com/repos/${GH.o}/${GH.r}`);if(r.ok){const j=await r.json();GH.ok=!!(j.permissions&&j.permissions.push)}else if(r.status===401){GH.t="";try{localStorage.removeItem("cl_gh")}catch(e){}}}catch(e){}}
- let txt=null;
- if(GH.ok){try{const r=await ghReq(GHU("data/db.json")+"?ref="+encodeURIComponent(GH.b),{headers:{Accept:"application/vnd.github.raw+json"}});if(r.ok)txt=await r.text();else if(r.status===404)txt="{}"}catch(e){}}
- if(txt==null){try{const r=await fetch("data/db.json",{cache:"no-cache"});if(r.ok)txt=await r.text()}catch(e){}}
- if(txt==null){LOADERR=true;txt="{}"}
- try{STORE=JSON.parse(txt)||{}}catch(e){STORE={};LOADERR=true}
- return gdb()}
+
+const ghReq=(u,o={})=>fetch(u,{
+  ...o,
+  headers:{
+    Accept:"application/vnd.github+json",
+    ...(GH.t?{Authorization:"Bearer "+GH.t}:{}),
+    ...(o.headers||{})
+  }
+});
+
+const b64=buf=>{
+  let o="";
+  for(let i=0;i<buf.length;i+=32768)
+    o+=String.fromCharCode.apply(null,buf.subarray(i,i+32768));
+  return btoa(o);
+};
+
+function ghCfg(){
+  const c=window.CRONOLIST||{},l=location,m=(l.hostname||"").match(/^([^.]+)\.github\.io$/);
+  return{
+    o:c.owner||(m?m[1]:""),
+    r:c.repo||(m?(l.pathname.split("/")[1]||m[1]+".github.io"):""),
+    b:c.branch||"main"
+  };
+}
+
+// Publica ou atualiza arquivos no GitHub
+async function ghPut(path,content,msg){
+  const u=GHU(path);
+  let sha;
+
+  const g=await ghReq(u+"?ref="+encodeURIComponent(GH.b));
+
+  if(g.ok){
+    const old=await g.text();
+
+    if(!old){
+      throw new Error("GitHub retornou uma resposta vazia ao consultar "+path);
+    }
+
+    let data;
+
+    try{
+      data=JSON.parse(old);
+    }catch(e){
+      throw new Error("Resposta inválida ao consultar arquivo no GitHub.");
+    }
+
+    sha=data.sha;
+
+  }else if(g.status!==404){
+    const errorText=await g.text();
+    throw new Error(
+      "Erro ao consultar GitHub: "+g.status+
+      (errorText?" — "+errorText.slice(0,200):"")
+    );
+  }
+
+  const r=await ghReq(u,{
+    method:"PUT",
+    body:JSON.stringify({
+      message:msg,
+      content,
+      branch:GH.b,
+      ...(sha?{sha}:{})
+    })
+  });
+
+  const response=await r.text();
+  let result=null;
+
+  if(response){
+    try{
+      result=JSON.parse(response);
+    }catch(e){
+      if(r.ok){
+        throw new Error("GitHub recebeu a solicitação, mas retornou uma resposta inválida.");
+      }
+    }
+  }
+
+  if(!r.ok){
+    throw new Error(
+      (result&&result.message)||
+      "GitHub retornou erro HTTP "+r.status+
+      (response?" — "+response.slice(0,200):"")
+    );
+  }
+
+  if(!result){
+    throw new Error("GitHub não confirmou a publicação.");
+  }
+
+  return result;
+}
+
+// Envia imagens e arquivos
+async function ghUpload(blob,fname){
+  const T={
+    "image/png":"png",
+    "image/jpeg":"jpg",
+    "image/webp":"webp",
+    "image/gif":"gif",
+    "image/svg+xml":"svg",
+    "audio/mpeg":"mp3",
+    "audio/mp4":"m4a",
+    "audio/ogg":"ogg",
+    "audio/wav":"wav",
+    "audio/webm":"webm"
+  };
+
+  const ext=((fname||"").split(".").pop()||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,5)||T[blob.type]||"bin";
+  const name=Date.now().toString(36)+Math.random().toString(36).slice(2,6)+"."+ext;
+  const buf=new Uint8Array(await blob.arrayBuffer());
+
+  const enc=b64(buf);
+  PREV[name]="data:"+(blob.type||"application/octet-stream")+";base64,"+enc;
+
+  await ghPut("uploads/"+name,enc,"Envia arquivo");
+
+  return{id:name,url:PREV[name]};
+}
+
+// Agenda a publicação
+function sched(){
+  clearTimeout(CT);
+  CT=setTimeout(commit,900);
+  toast("Publicando…");
+}
+
+// Salva os dados no repositório
+function commit(){
+  const body=b64(new TextEncoder().encode(JSON.stringify(STORE)));
+
+  CQ=CQ.then(()=>ghPut("data/db.json",body,"Atualiza dados do Cronolist"))
+    .then(()=>toast("Publicado. Aparece no site em cerca de 1 minuto."))
+    .catch(e=>toast("Falha ao publicar: "+(e.message||"erro")));
+}
+
+// Banco de dados local compatível com o sistema atual
+function gdb(){
+  const snap=n=>({
+    docs:Object.entries(STORE[n]||{}).map(([id,o])=>({id,data:()=>o}))
+  });
+
+  const notify=n=>(SUBS[n]||[]).forEach(f=>f(snap(n)));
+
+  return{
+    collection:n=>({
+      onSnapshot(f){
+        (SUBS[n]=SUBS[n]||[]).push(f);
+        setTimeout(()=>f(snap(n)),0);
+        return()=>{};
+      },
+
+      doc:id=>({
+        async set(o){
+          (STORE[n]=STORE[n]||{})[id]=o;
+          notify(n);
+          sched();
+        },
+
+        async update(q){
+          const c=(STORE[n]||{})[id];
+          if(!c)throw new Error("not-found");
+          STORE[n][id]={...c,...q};
+          notify(n);
+          sched();
+        },
+
+        async delete(){
+          if(STORE[n])delete STORE[n][id];
+          notify(n);
+          sched();
+        }
+      })
+    })
+  };
+}
+
+// Carrega os dados do repositório
+async function standaloneDb(){
+  const c=ghCfg();
+
+  GH.o=c.o;
+  GH.r=c.r;
+  GH.b=c.b;
+
+  try{
+    GH.t=localStorage.getItem("cl_gh")||"";
+  }catch(e){}
+
+  if(GH.t&&GH.o&&GH.r){
+    try{
+      const r=await ghReq(`https://api.github.com/repos/${GH.o}/${GH.r}`);
+
+      if(r.ok){
+        const j=await r.json();
+        GH.ok=!!(j.permissions&&j.permissions.push);
+      }else if(r.status===401){
+        GH.t="";
+        try{localStorage.removeItem("cl_gh")}catch(e){}
+      }
+    }catch(e){}
+  }
+
+  let txt=null;
+
+  if(GH.ok){
+    try{
+      const r=await ghReq(
+        GHU("data/db.json")+"?ref="+encodeURIComponent(GH.b),
+        {headers:{Accept:"application/vnd.github.raw+json"}}
+      );
+
+      if(r.ok)txt=await r.text();
+      else if(r.status===404)txt="{}";
+    }catch(e){}
+  }
+
+  if(txt==null){
+    try{
+      const r=await fetch("data/db.json",{cache:"no-cache"});
+      if(r.ok)txt=await r.text();
+    }catch(e){}
+  }
+
+  if(txt==null){
+    LOADERR=true;
+    txt="{}";
+  }
+
+  try{
+    STORE=JSON.parse(txt)||{};
+  }catch(e){
+    STORE={};
+    LOADERR=true;
+  }
+
+  return gdb();
+}
+
 const loginCard=()=>`<div class="card mt"><h3 style="margin:0 0 6px">Entrar como administrador</h3><p class="mut" style="margin:0 0 10px">Esta é a área administrativa do Cronolist. O acesso é só para quem administra o site.</p>${GH.o&&GH.r?`<p class="mut" style="margin:0 0 10px">Cole o token de acesso do GitHub com permissão de escrita no repositório <b>${GH.o}/${GH.r}</b>. Ele fica salvo só neste navegador.</p><input type="password" id="ghtok" placeholder="github_pat_..." autocomplete="off"><p class="err" id="lerr"></p><div class="ma"><button class="btn p" data-do="login">Entrar</button></div>`:`<p class="mut" style="margin:0">Repositório não configurado. Edite o arquivo <b>config.js</b> com o usuário e o nome do repositório do GitHub.</p>`}</div>`;
-async function ghLogin(){const t=($("#ghtok").value||"").trim(),e=$("#lerr");if(!t){e.textContent="Cole o token.";return}GH.t=t;e.textContent="Verificando…";
- try{const r=await ghReq(`https://api.github.com/repos/${GH.o}/${GH.r}`);if(!r.ok){GH.t="";e.textContent=r.status===401?"Token inválido ou expirado.":r.status===404?"Repositório não encontrado ou token sem acesso a ele.":"Erro do GitHub ("+r.status+").";return}
-  const j=await r.json();if(!(j.permissions&&j.permissions.push)){GH.t="";e.textContent="Este token não tem permissão de escrita no repositório.";return}
-  try{localStorage.setItem("cl_gh",t)}catch(x){}location.hash="#admin";location.reload()}catch(x){GH.t="";e.textContent="Não foi possível conectar ao GitHub."}}
-Object.assign(ACT,{login:()=>ghLogin(),logout:()=>{try{localStorage.removeItem("cl_gh")}catch(e){}location.reload()}});
-document.addEventListener("keydown",e=>{const t=e.target;if((e.key==="Enter"||e.key===" ")&&t&&t.matches&&t.matches('[role="button"][data-do]')){e.preventDefault();t.dispatchEvent(new Event("click",{bubbles:true}))}});
-const R={inicio:vHome,lista:vLista,emissora:b=>vEmissora(+b),regiao:vRegiao,estado:vEstado,pais:b=>vPais(+b),cronologias:vCron,pracas:vPracas,prem:b=>vPrem(+b),pf:b=>vPf(+b),jn:b=>vJn(+b),esportes:vEsportes,mod:b=>vMod(+b),comp:b=>vComp(+b),programacao:vProg,mais:vMais,entrar:vAdmin,pede:vPede,plus:vPlus,midia:vMidia,eleicoes:vEleicoes,trens:vTrens,linha:b=>vLinha(+b),oper:b=>vOper(+b),ineditos:vIneditos,evpartidos:vEvp,pnum:b=>vPnum(b),estaduais:vEstaduais,admin:vAdmin,lancamentos:vLanc,busca:vBusca};
-function draw(keep){const h=location.hash.slice(1)||"inicio",i=h.indexOf("-"),a=i<0?h:h.slice(0,i),b=i<0?"":h.slice(i+1),y=scrollY;
- if(a==="emissora"&&!keep&&!draw.k)hit(+b);
- $("#app").innerHTML=(R[a]||vHome)(b);
- if($("#res"))drawList(b);if($("#rc"))drawCron();if($("#rp"))drawPracas();if($("#rb"))drawBusca();if($("#ra"))drawAdmin();if($("#rpd"))drawPede();{const t=document.querySelector("main h1");document.title=(t?t.textContent+" · ":"")+"Cronolist"}
- scrollTo(0,keep?y:0)}
-try{const t=localStorage.getItem("cl_th");if(t&&t!=="auto"){ST.th=t;document.documentElement.dataset.theme=t}}catch(e){}
-addEventListener("hashchange",()=>{ST.q="";draw()});draw();initDb();
-if(!CLAUDE&&"serviceWorker" in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(()=>{});
-(()=>{const n=$("#intro");if(!n)return;let seen=false;try{seen=!!sessionStorage.getItem("cl_i");sessionStorage.setItem("cl_i","1")}catch(e){}
- const rm=()=>n.remove();if(seen||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches))return rm();n.addEventListener("click",rm);setTimeout(rm,3300)})();
-</script>
-</body>
-</html>
+
+async function ghLogin(){
+  const t=($("#ghtok").value||"").trim(),e=$("#lerr");
+
+  if(!t){
+    e.textContent="Cole o token.";
+    return;
+  }
+
+  GH.t=t;
+  e.textContent="Verificando…";
+
+  try{
+    const r=await ghReq(`https://api.github.com/repos/${GH.o}/${GH.r}`);
+
+    if(!r.ok){
+      GH.t="";
+      e.textContent=r.status===401?"Token inválido ou expirado.":r.status===404?"Repositório não encontrado ou token sem acesso a ele.":"Erro do GitHub ("+r.status+").";
+      return;
+    }
+
+    const j=await r.json();
+
+    if(!(j.permissions&&j.permissions.push)){
+      GH.t="";
+      e.textContent="Este token não tem permissão de escrita no repositório.";
+      return;
+    }
+
+    try{
+      localStorage.setItem("cl_gh",t);
+    }catch(x){}
+
+    location.hash="#admin";
+    location.reload();
+
+  }catch(x){
+    GH.t="";
+    e.textContent="Não foi possível conectar ao GitHub.";
+  }
+}
+
+Object.assign(ACT,{
+  login:()=>ghLogin(),
+  logout:()=>{
+    try{localStorage.removeItem("cl_gh")}catch(e){}
+    location.reload();
+  }
+});
+
+document.addEventListener("keydown",e=>{
+  const t=e.target;
+  if((e.key==="Enter"||e.key===" ")&&t&&t.matches&&t.matches('[role="button"][data-do]')){
+    e.preventDefault();
+    t.dispatchEvent(new Event("click",{bubbles:true}));
+  }
+});
+ 
